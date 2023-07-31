@@ -49,6 +49,10 @@ INSTALLED_APPS = [
     # Сторонние приложения
     "rest_framework",
     "debug_toolbar",
+    # Свои приложения
+    "users.apps.UsersConfig",
+    "common.apps.CommonConfig",
+    "skill_tests.apps.SkillTestsConfig",
 ]
 
 MIDDLEWARE = [
@@ -88,8 +92,12 @@ WSGI_APPLICATION = 'make_yourself.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env("NAME"),
+        'USER': env("DB_USER"),
+        'PASSWORD': env("PASSWORD"),
+        'HOST': env("HOST"),
+        'PORT': "",
     }
 }
 
@@ -141,3 +149,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+# Загрузка своей модели пользователей
+AUTH_USER_MODEL = "users.CustomUser"
+LOGIN_REDIRECT_URL = "index"
+LOGOUT_REDIRECT_URL = "index"
