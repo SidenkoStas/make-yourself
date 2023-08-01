@@ -7,7 +7,7 @@ class Notification(models.Model):
     Модель для управления уведомлений и новостей для пользователя.
     """
     slug = models.SlugField(max_length=250, unique=True, db_index=True)
-    notification = models.CharField(max_length=150, name="Уведомление")
+    notification = models.CharField(max_length=150, verbose_name="Уведомление")
 
     class Meta:
         verbose_name = "Уведомление"

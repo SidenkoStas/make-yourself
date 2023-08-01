@@ -22,5 +22,5 @@ urlpatterns = [
     path("__debug__/", include("debug_toolbar.urls")),
     path("", include("common.urls", namespace="common")),
     path("users/", include("users.urls", namespace="users")),
-    path('users/', include('django.contrib.auth.urls')),
+    # path('users/', include('django.contrib.auth.urls')),
 ]
