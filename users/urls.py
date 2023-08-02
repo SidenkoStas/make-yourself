@@ -1,16 +1,15 @@
-from django.urls import include, path
-from .views import UserViewSet, SignUpView
-from rest_framework.routers import SimpleRouter
+from django.urls import path
+from .views import SignUpView
+from django.contrib.auth.views import LoginView, LogoutView
 
 
 app_name = "users"
 
-
-router = SimpleRouter()
-router.register("account", UserViewSet, basename="user")
-print(router.urls)
-
 urlpatterns = [
-    path("", include(router.urls)),
-    path("signup/", SignUpView.as_view()),
+    path("signup/", SignUpView.as_view(), name="signup"),
+    path("login/", LoginView.as_view(
+        template_name="users/login.html"), name="login"
+    ),
+    path("logout/", LogoutView.as_view(), name="logout"),
+    path("edit_profile/", SignUpView.as_view(), name="edit_profile"),
 ]

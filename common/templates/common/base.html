@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} Make Yourself! {% endblock title %}</title>
+</head>
+<body>
+{% if user.is_authenticated %}
+    <h1>Hello</h1>
+{% else %}
+<div>
+     <a href="{% url 'users:login' %}">Войти</a>
+</div>
+{% endif %}
+
+
+{% block content %}
+{% endblock content %}
+
+</body>
+</html>

@@ -1,24 +1,21 @@
-from rest_framework.generics import ListCreateAPIView, CreateAPIView
-from .serializers import UserSerializers
-from .models import CustomUser
-from rest_framework.viewsets import GenericViewSet, ModelViewSet
-from rest_framework import mixins
-from rest_framework.renderers import TemplateHTMLRenderer, StaticHTMLRenderer, HTMLFormRenderer
+from django.views.generic.edit import CreateView
+from django.contrib.auth import authenticate
+
+from django.contrib.auth import get_user_model
+from .forms import CustomUserCreationForm
+from django.urls import reverse_lazy
 
 
-class UserViewSet(mixins.CreateModelMixin,
-                  mixins.RetrieveModelMixin,
-                  mixins.UpdateModelMixin,
-                  mixins.DestroyModelMixin,
 
-                  GenericViewSet):
-    queryset = CustomUser.objects.all()
-    serializer_class = UserSerializers
-    # renderer_classes = [HTMLFormRenderer]
+class SignUpView(CreateView):
+    """
+    Представление для управления регистрацией новых пользователей.
+    """
+    model = get_user_model()
+    template_name = "users/signup.html"
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy("common:index")
 
 
-class SignUpView(CreateAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = UserSerializers
-    renderer_classes = [HTMLFormRenderer]
-    template_name = "users/signup"
+
+

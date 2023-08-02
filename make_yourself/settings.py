@@ -71,7 +71,7 @@ ROOT_URLCONF = 'make_yourself.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -154,5 +154,6 @@ INTERNAL_IPS = [
 
 # Загрузка своей модели пользователей
 AUTH_USER_MODEL = "users.CustomUser"
-LOGIN_REDIRECT_URL = "index"
-LOGOUT_REDIRECT_URL = "index"
+
+LOGIN_REDIRECT_URL = "common:index"
+LOGOUT_REDIRECT_URL = "common:index"
