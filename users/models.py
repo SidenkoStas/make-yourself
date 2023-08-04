@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import reverse
 from django.contrib.auth.models import AbstractUser
 
 
@@ -31,6 +32,9 @@ class CustomUser(AbstractUser):
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
+
+    def get_absolute_url(self):
+        return reverse("users:edit_profile", kwargs={"pk": self.pk})
 
     def __str__(self):
         return f"{self.username}"

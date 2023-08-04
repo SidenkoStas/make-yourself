@@ -8,7 +8,7 @@
 
 <h1> Форма Регистрация </h1>
 
-<form  method="post">
+<form enctype='multipart/form-data' method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit"> Зарегистрироваться </button>

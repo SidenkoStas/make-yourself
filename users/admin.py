@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .forms import CustomUserChangeForm, CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import Notification, CustomUser
 from django.utils.safestring import mark_safe
 
