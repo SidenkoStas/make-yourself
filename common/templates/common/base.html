@@ -5,8 +5,11 @@
     <title>{% block title %} Make Yourself! {% endblock title %}</title>
 </head>
 <body>
+<h2><a href="{% url 'common:index' %}">Главная страница</a> </h2>
+
 {% if user.is_authenticated %}
 <h1> Hello, {{ user.username }}! </h1>
+    <a href={{ user.get_absolute_url }}>Редактировать профиль</a> |
     <a href="{% url 'users:logout' %}"> Выход </a>
 {% else %}
 <div>
@@ -14,7 +17,6 @@
      <a href="{% url 'users:login' %}">Войти</a>
 </div>
 {% endif %}
-
 
 {% block content %}
 {% endblock content %}

@@ -22,6 +22,7 @@ class CustomUser(AbstractUser):
     """
     Доработанная модель пользователей с добавлением своих полей.
     """
+    email = models.EmailField(unique=True)
     photo = models.ImageField(upload_to="profile_photo/%Y/%m/%d/", blank=True,
                               verbose_name="Фото профиля")
     bio = models.TextField(blank=True, verbose_name="О себе")

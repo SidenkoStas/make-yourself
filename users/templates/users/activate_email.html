@@ -1,0 +1,5 @@
+{% autoescape off %}
+    Привет {{ user.username }}!
+    {{ context_message }}
+    http://{{ domain }}{% url "users:activate" uid=uid token=token %}
+{% endautoescape %}
