@@ -10,7 +10,9 @@ from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.views import (PasswordResetConfirmView,
-                                       PasswordResetView)
+                                       PasswordResetView,
+                                       PasswordResetDoneView,
+                                       PasswordResetCompleteView)
 
 
 
@@ -93,3 +95,17 @@ class UserPasswordResetView(PasswordResetView):
 class UserPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'users/password_reset.html'
     success_url = reverse_lazy("users:password_reset_complete")
+
+
+class UserPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'users/password_reset_message.html'
+    extra_context = {
+        "message_text": "Ссылка для сброса пароля выслана по указанному email!"
+    }
+
+
+class UserPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'users/password_reset_message.html'
+    extra_context = {
+        "message_text": "Пароль успешно изменён. Войдитена сайт используя новый пароль."
+    }
