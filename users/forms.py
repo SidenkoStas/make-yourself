@@ -4,7 +4,7 @@ from django.forms import EmailField
 
 
 class CustomUserCreationForm(UserCreationForm):
-    email = EmailField(max_length=200, help_text='Обязателен для заполнения!')
+    # email = EmailField(max_length=200, help_text='Обязателен для заполнения!')
     """
     Настройка формы для регистрации с изменениями в HTML форме.
     """

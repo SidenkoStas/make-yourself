@@ -30,6 +30,9 @@ class CustomUser(AbstractUser):
         Notification, blank=True, verbose_name="Уведомления"
     )
 
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ("username", )
+
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
