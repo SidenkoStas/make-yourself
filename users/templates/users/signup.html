@@ -3,22 +3,55 @@
 {% block title %} Регистрация {% endblock title %}
 
 
-
 {% block content %}
 
-<h1> Форма Регистрация </h1>
-
-<form enctype='multipart/form-data' method="post">
+    <form method="post">
     {% csrf_token %}
-    {% for field in form %}
-        <p>{{ field.label_tag }}
-        {{ field }}
-        {% if field.errors %}
-            <small>{{ field.errors }}</small>
-        {% endif %}</p>
-    {% endfor %}
 
-    <button type="submit"> Зарегистрироваться </button>
+    </form>
+
+
+
+<div class="container col-md-8"  style="margin-top: 10%">
+<h1 class="text-center"> Форма Регистрация </h1>
+<p class="text-center">Дополнительные сведения Вы можете указать на странице вашего профиля.</p>
+
+
+<form method="post" enctype="multipart/form-data" class="row g-3">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+  <div class="col-md-6">
+      {{ form.username.errors }}
+    <label for="{{ form.username.id_for_label }}" class="form-label">Имя пользователя</label>
+    {{ form.username }}
+  </div>
+  <div class="col-md-6">
+      {{ form.email.errors }}
+    <label for="{{ form.email.id_for_label }}" class="form-label">E-mail</label>
+    {{ form.email }}
+  </div>
+    <div class="col-md-6">
+        {{ form.password1.errors }}
+    <label for="{{ form.password1.id_for_label }}" class="form-label">Пароль</label>
+    {{ form.password1 }}
+  </div>
+  <div class="col-md-6">
+      {{ form.password2.errors }}
+    <label for="{{ form.password2.id_for_label }}" class="form-label">Пароль</label>
+    {{ form.password2 }}
+  </div>
+  <div class="col-12">
+      {{ form.notifications.errors }}
+    <div class="form-check">
+        <h3 class="mb-20 mt-40">📮 Уведомления </h3>
+            <ul class="space-y-10">
+                {{ form.notifications }}
+            </ul>
+    </div>
+    </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+  </div>
 </form>
-
+</div>
 {% endblock content %}

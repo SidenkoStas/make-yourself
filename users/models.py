@@ -37,6 +37,13 @@ class CustomUser(AbstractUser):
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 
+    def get_notifications(self):
+        """
+        Возвращает список уведомлений к которым подписан пользователь.
+        """
+        return ", ".join(
+            [p.notification for p in self.notifications.all()])
+
     def get_absolute_url(self):
         return reverse("users:edit_profile", kwargs={"pk": self.pk})
 

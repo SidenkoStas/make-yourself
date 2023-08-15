@@ -8,12 +8,13 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.views.generic import DetailView
 from django.contrib.auth.views import (PasswordResetConfirmView,
                                        PasswordResetView,
                                        PasswordResetDoneView,
                                        PasswordResetCompleteView)
-
 
 
 class SignUpView(CreateView):
@@ -34,10 +35,12 @@ class SignUpView(CreateView):
             user = form.save(commit=False)
             user.is_active = False
             user.save()
+            form.save_m2m()
+
             # Берём нужную информацию, для отправки по email:
             token = default_token_generator.make_token(user)
             current_site = get_current_site(self.request)
-            mail_subject = ("Ссылка активации направлена"
+            mail_subject = ("Ссылка активации направлена "
                             "Вам на указанный e-mail.")
             context_message = "Пожалуйста, перейди по ссылку для подтверждения регистрации!"
             message = render_to_string(
@@ -52,13 +55,26 @@ class SignUpView(CreateView):
             )
             to_email = form.cleaned_data.get("email")
             email = EmailMessage(mail_subject, message, to=[to_email])
-            email.send()
-            return HttpResponse(
-                """
-                Пожалуйста, подтвердите свой
+            try:
+                email.send()
+                message_text = """
+                Пожалуйста, подтвердите свой 
                 email для завершения регистрации!
                 """
-            )
+                return render(
+                    self.request,
+                    "users/information_message.html",
+                    context={"message_text": message_text}
+                )
+
+            except:
+                user.delete()
+                message_text = "Что-то пошло не так, попробуйте ещё!"
+                return render(
+                    self.request,
+                    "users/information_message.html",
+                    context={"message_text": message_text}
+                )
 
 
 def activate(request, uid, token):
@@ -74,7 +90,17 @@ def activate(request, uid, token):
         login(request, user)
         return HttpResponseRedirect(reverse_lazy("common:index"))
     else:
-        return HttpResponse("Ссылка активации не действительна!")
+        message_text = "Ссылка активации не действительна!"
+        return render(
+            request,
+            "users/information_message.html",
+            context={"message_text": message_text}
+        )
+
+
+class ProfileDetail(DetailView):
+    model = get_user_model()
+    template_name = "users/profile_detail.html"
 
 
 class UserUpdateView(UpdateView):
@@ -98,14 +124,15 @@ class UserPasswordResetConfirmView(PasswordResetConfirmView):
 
 
 class UserPasswordResetDoneView(PasswordResetDoneView):
-    template_name = 'users/password_reset_message.html'
+    template_name = 'users/information_message.html'
     extra_context = {
         "message_text": "Ссылка для сброса пароля выслана по указанному email!"
     }
 
 
 class UserPasswordResetCompleteView(PasswordResetCompleteView):
-    template_name = 'users/password_reset_message.html'
+    template_name = 'users/information_message.html'
     extra_context = {
-        "message_text": "Пароль успешно изменён. Войдитена сайт используя новый пароль."
+        "message_text":
+            "Пароль успешно изменён. Войдитена сайт используя новый пароль."
     }
