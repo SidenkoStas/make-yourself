@@ -5,7 +5,6 @@ from django import forms
 
 
 class CustomUserCreationForm(UserCreationForm):
-    # email = EmailField(max_length=200, help_text='Обязателен для заполнения!')
     """
     Настройка формы для регистрации с изменениями в HTML форме.
     """
@@ -45,13 +44,18 @@ class CustomUserChangeForm(UserChangeForm):
             "notifications"
         )
         widgets = {
-            "username": forms.TextInput(attrs={"class": "form-control"})
+            "username": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control"}),
+            "photo": forms.FileInput(attrs={"class": "form-control col"}),
+            "bio": forms.Textarea(attrs={"class": "form-control", "rows": 10}),
         }
 
     notifications = forms.ModelMultipleChoiceField(
         queryset=Notification.objects.all(),
         widget=forms.CheckboxSelectMultiple(
-            attrs={"checked": ""},
+            {"class": "col", }
         ),
     )
 

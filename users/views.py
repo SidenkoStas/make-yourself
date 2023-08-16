@@ -1,6 +1,6 @@
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth import login, get_user_model
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.urls import reverse_lazy
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
@@ -105,11 +105,8 @@ class ProfileDetail(DetailView):
 
 class UserUpdateView(UpdateView):
     model = get_user_model()
-    fields = [
-        "username", "photo", "email", "first_name", "last_name", "bio",
-        "notifications"
-    ]
     template_name = "users/edit_profile.html"
+    form_class = CustomUserChangeForm
 
 
 class UserPasswordResetView(PasswordResetView):

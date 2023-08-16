@@ -1,6 +1,17 @@
+import time
+
 from django.db import models
 from django.shortcuts import reverse
 from django.contrib.auth.models import AbstractUser
+
+
+def user_directory_path(instance, filename):
+    """
+    Функция сохранения загруженных файлов в дерикторию, с учётом мользователя
+    и названия файла.
+    """
+    prefix = time.strftime("%Y/%m/%d")
+    return f'profile_photo/{prefix}/user_{instance.username}/{filename}'
 
 
 class Notification(models.Model):
@@ -23,7 +34,7 @@ class CustomUser(AbstractUser):
     Доработанная модель пользователей с добавлением своих полей.
     """
     email = models.EmailField(unique=True)
-    photo = models.ImageField(upload_to="profile_photo/%Y/%m/%d/", blank=True,
+    photo = models.ImageField(upload_to=user_directory_path, blank=True,
                               verbose_name="Фото профиля")
     bio = models.TextField(blank=True, verbose_name="О себе")
     notifications = models.ManyToManyField(

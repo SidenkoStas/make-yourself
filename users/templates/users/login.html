@@ -4,26 +4,26 @@
 
 {% block content %}
 
-<div class="container col-md-4" style="margin-top: 10%">
-<form method="post">
-{% csrf_token %}
-{{ form.non_field_errors }}
-  <div class="mb-3">
-      {{ form.username.errors }}
-    <label for="{{ form.username.id_for_label }}" class="form-label">Адрес электронной почты</label>
-      {{ form.username }}
-  </div>
-  <div class="mb-3">
-      {{ form.password.errors }}
-    <label for="{{ form.password.id_for_label }}" class="form-label">Пароль</label>
-      {{ form.password }}
-  </div>
-{#  <div class="mb-3 form-check">#}
-{#    <input type="checkbox" class="form-check-input" id="exampleCheck1">#}
-{#    <label class="form-check-label" for="exampleCheck1">Проверить меня</label>#}
-{#  </div>#}
-  <button type="submit" class="btn btn-primary">Войти</button>
-</form>
+    <div class="container col-md-4" style="margin-top: 10%">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="mb-3">
+            {{ form.username.errors }}
+            <label for="{{ form.username.id_for_label }}" class="form-label">Адрес электронной почты</label>
+            {{ form.username }}
+        </div>
+        <div class="mb-3">
+            {{ form.password.errors }}
+            <label for="{{ form.password.id_for_label }}" class="form-label">Пароль</label>
+            {{ form.password }}
+        </div>
+        {#  <div class="mb-3 form-check">#}
+        {#    <input type="checkbox" class="form-check-input" id="exampleCheck1">#}
+        {#    <label class="form-check-label" for="exampleCheck1">Проверить меня</label>#}
+        {#  </div>#}
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
 
     <p style="margin-top: 10px"><a href="{% url 'users:password_reset' %}" >Забыли пароль?</a> </p>
 {% endblock content %}
