@@ -19,7 +19,7 @@ from django.contrib.auth.views import (PasswordResetConfirmView,
 
 class SignUpView(CreateView):
     """
-    Представление для управления регистрацией новых пользователей.
+    Представление для создания и управления регистрацией новых пользователей.
     """
     model = get_user_model()
     template_name = "users/signup.html"
@@ -66,7 +66,6 @@ class SignUpView(CreateView):
                     "users/information_message.html",
                     context={"message_text": message_text}
                 )
-
             except:
                 user.delete()
                 message_text = "Что-то пошло не так, попробуйте ещё!"
@@ -78,6 +77,10 @@ class SignUpView(CreateView):
 
 
 def activate(request, uid, token):
+    """
+    Представление для активации аккаунта зарегистрированного пользователя.
+    Параметры передаются автоматически из письма активации.
+    """
     User = get_user_model()
     try:
         uid = force_str(urlsafe_base64_decode(uid))
@@ -88,6 +91,8 @@ def activate(request, uid, token):
         user.is_active = True
         user.save()
         login(request, user)
+        # reverse_lazy не предоставляет response, поэтоме его нужно
+        # предоставить вручную.
         return HttpResponseRedirect(reverse_lazy("common:index"))
     else:
         message_text = "Ссылка активации не действительна!"
@@ -99,28 +104,43 @@ def activate(request, uid, token):
 
 
 class ProfileDetail(DetailView):
+    """
+    Представление для отображения страницы пользователя.
+    """
     model = get_user_model()
     template_name = "users/profile_detail.html"
 
 
 class UserUpdateView(UpdateView):
+    """
+    Представление для редактирования профиля пользователя.
+    """
     model = get_user_model()
     template_name = "users/edit_profile.html"
     form_class = CustomUserChangeForm
 
 
 class UserPasswordResetView(PasswordResetView):
+    """
+    Запрос информации для подтверждения сброса пароля.
+    """
     email_template_name = "users/password_reset_mail.html"
     template_name = "users/password_reset.html"
     extra_email_context = {"context_message": "Ссылка для сброса пароля."}
 
 
 class UserPasswordResetConfirmView(PasswordResetConfirmView):
+    """
+    Отображение формы для сброса пароля.
+    """
     template_name = 'users/password_reset.html'
     success_url = reverse_lazy("users:password_reset_complete")
 
 
 class UserPasswordResetDoneView(PasswordResetDoneView):
+    """
+    Информация об отправке письма со сбросом пароля.
+    """
     template_name = 'users/information_message.html'
     extra_context = {
         "message_text": "Ссылка для сброса пароля выслана по указанному email!"
@@ -128,6 +148,9 @@ class UserPasswordResetDoneView(PasswordResetDoneView):
 
 
 class UserPasswordResetCompleteView(PasswordResetCompleteView):
+    """
+    При успешном изменении пароля.
+    """
     template_name = 'users/information_message.html'
     extra_context = {
         "message_text":

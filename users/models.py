@@ -1,5 +1,4 @@
 import time
-
 from django.db import models
 from django.shortcuts import reverse
 from django.contrib.auth.models import AbstractUser
@@ -40,7 +39,7 @@ class CustomUser(AbstractUser):
     notifications = models.ManyToManyField(
         Notification, blank=True, verbose_name="Уведомления"
     )
-
+    # Для изменения поля авторизации с логина на почту.
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ("username", )
 
