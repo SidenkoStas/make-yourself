@@ -1,10 +1,10 @@
 from django.urls import path
 from .forms import CustomAuthenticationForm
-from .views import UserUpdateView, activate, SignUpView
+from .old_views import UserUpdateView, activate, SignUpView
 from django.contrib.auth.views import LoginView, LogoutView
-from .views import (UserPasswordResetView, UserPasswordResetConfirmView,
-                    UserPasswordResetDoneView, UserPasswordResetCompleteView,
-                    ProfileDetail)
+from .old_views import (UserPasswordResetView, UserPasswordResetConfirmView,
+                        UserPasswordResetDoneView, UserPasswordResetCompleteView,
+                        ProfileDetail)
 
 app_name = "users"
 
