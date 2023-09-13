@@ -31,6 +31,8 @@ class Question(models.Model):
     """
     Вопросы для тестов.
     """
+    slug = models.SlugField(db_index=True)
+    name = models.CharField(max_length=255)
     question = models.TextField(verbose_name="Вопрос")
     test = models.ManyToManyField(SkillTest, verbose_name="Тест")
 
