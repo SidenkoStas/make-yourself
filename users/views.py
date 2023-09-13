@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import UserSerializers
+from .serializers import UserSerializer
 from .models import CustomUser
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import mixins
@@ -14,7 +14,7 @@ class UserViewSet(mixins.CreateModelMixin,
                   mixins.DestroyModelMixin,
                   GenericViewSet):
     queryset = CustomUser.objects.all()
-    serializer_class = UserSerializers
+    serializer_class = UserSerializer
 
 
 class SignUpView(APIView):
@@ -22,11 +22,11 @@ class SignUpView(APIView):
     template_name = "users/signup.html"
 
     def get(self, request, *args, **kwargs):
-        serializer = UserSerializers()
+        serializer = UserSerializer()
         return Response({"user_form": serializer})
 
     def post(self, request):
-        serializer = UserSerializers(data=request.data)
+        serializer = UserSerializer(data=request.data)
         if not serializer.is_valid():
             return Response({"user_form": serializer})
         serializer.save()

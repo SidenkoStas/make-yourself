@@ -2,7 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from django.contrib.auth import get_user_model
 
 
-class UserSerializers(ModelSerializer):
+class UserSerializer(ModelSerializer):
     """
     Сериализатор для модели пользователей.
     """
