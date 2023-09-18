@@ -21,8 +21,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("__debug__/", include("debug_toolbar.urls")),
     path("", include("common.urls", namespace="common")),
+    path("blog/", include("blog.urls", namespace="blog")),
     path("users/", include("users.urls", namespace="users")),
     path('users/', include('django.contrib.auth.urls')),
 ]
@@ -31,3 +31,6 @@ if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
     )
+    urlpatterns.extend([
+        path("__debug__/", include("debug_toolbar.urls"))])
+
