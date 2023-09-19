@@ -48,6 +48,9 @@ class Post(PostBase):
 
     slug = models.SlugField(db_index=True, unique=True)
     title = models.CharField(max_length=255, verbose_name="Заголовок")
+    category = models.ForeignKey(
+        Category, on_delete=models.PROTECT, verbose_name="Категория"
+    )
     is_published = models.BooleanField(
         default=0, choices=PUB, verbose_name="Публикация"
     )

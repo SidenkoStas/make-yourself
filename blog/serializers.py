@@ -1,40 +1,34 @@
 from rest_framework import serializers
 from blog.models import Category, Post, Comment
-from likes.services import is_fan
-
-
-class LikeBase:
-    """
-    Parent class for post and comment model to manage like.
-    """
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['total_likes'] = instance.likes.count()
-        return representation
-
-    def get_is_fan(self, obj) -> bool:
-        """
-        Check liked user or not.
-        """
-        user = self.context.get('request').user
-        return is_fan(obj, user)
+from likes.mixins import LikeSerializerMixin
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    """
+    Serializer for Category model
+    """
     class Meta:
         model = Category
         fields = "__all__"
 
 
-class PostSerializer(LikeBase, serializers.ModelSerializer):
+class PostSerializer(LikeSerializerMixin, serializers.ModelSerializer):
+    """
+    Serializer for Post model
+    """
     is_fan = serializers.SerializerMethodField()
+    published = serializers.BooleanField(source="is_published", default=False)
 
     class Meta:
         model = Post
-        fields = "__all__"
+        fields = ["id", "slug", "published", "creation_date", "category",
+                  "author", "title", "content", "publish_date", "is_fan"]
 
 
-class CommentSerializer(serializers.ModelSerializer):
+class CommentSerializer(LikeSerializerMixin, serializers.ModelSerializer):
+    """
+    Serializer for Comment model
+    """
     is_fan = serializers.SerializerMethodField()
 
     class Meta:

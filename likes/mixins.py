@@ -2,6 +2,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from likes import services
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from likes.services import is_fan
 
 
 class LikedMixin:
@@ -24,3 +25,23 @@ class LikedMixin:
         elif request.method == "DELETE":
             services.remove_like(obj, request.user)
         return Response()
+
+
+class LikeSerializerMixin:
+    """
+    Parent class for post and comment model to manage like.
+    """
+    def to_representation(self, instance):
+        """
+        Counting total amount of likes to a post.
+        """
+        representation = super().to_representation(instance)
+        representation['total_likes'] = instance.likes.count()
+        return representation
+
+    def get_is_fan(self, obj) -> bool:
+        """
+        Check if user add like to post  or not.
+        """
+        user = self.context.get('request').user
+        return is_fan(obj, user)

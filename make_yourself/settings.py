@@ -34,8 +34,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = env("ALLOWED_HOSTS").split()
 
 # Application definition
 
@@ -49,6 +48,7 @@ INSTALLED_APPS = [
     # Сторонние приложения
     "rest_framework",
     "debug_toolbar",
+    "drf_spectacular",
     # Свои приложения
     "users.apps.UsersConfig",
     "common.apps.CommonConfig",
@@ -161,10 +161,23 @@ LOGIN_REDIRECT_URL = "common:index"
 LOGOUT_REDIRECT_URL = "common:index"
 
 # Настройки email
-# EMAIL_USE_TLS = env("EMAIL_USE_TLS")
 EMAIL_USE_SSL = env("EMAIL_USE_SSL")
 EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = env("EMAIL_PORT")
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
+
+
+REST_FRAMEWORK = {
+    # YOUR SETTINGS
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Make Yourself',
+    'DESCRIPTION': 'Website for self-education and self-study',
+    'VERSION': '0.2.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
