@@ -4,7 +4,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from likes.models import Like
 
 
-class PostBase(models.Model):
+class PostCommentBase(models.Model):
     """
     Abstract model for Comment and Post models.
     """
@@ -37,7 +37,7 @@ class Category(models.Model):
         return f"{self.title}"
 
 
-class Post(PostBase):
+class Post(PostCommentBase):
     """
     Blog's post model
     """
@@ -66,7 +66,7 @@ class Post(PostBase):
         return f"{self.title}"
 
 
-class Comment(PostBase):
+class Comment(PostCommentBase):
     """
     Comment for Post model
     """

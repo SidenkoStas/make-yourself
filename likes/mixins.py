@@ -29,19 +29,20 @@ class LikedMixin:
 
 class LikeSerializerMixin:
     """
-    Parent class for post and comment model to manage like.
+    Parent class for managing like.
     """
     def to_representation(self, instance):
         """
         Counting total amount of likes to a post.
         """
         representation = super().to_representation(instance)
-        representation['total_likes'] = instance.likes.count()
+        print(instance)
+        representation['total_likes'] = instance.total_likes()
         return representation
 
     def get_is_fan(self, obj) -> bool:
         """
-        Check if user add like to post  or not.
+        Check if user add like to a post or not.
         """
         user = self.context.get('request').user
         return is_fan(obj, user)
