@@ -18,7 +18,6 @@ class LikedMixin:
         """
         Manage obj's like
         """
-        print(request)
         obj = self.get_object()
         if request.method == "POST":
             services.add_like(obj, request.user)
@@ -36,8 +35,7 @@ class LikeSerializerMixin:
         Counting total amount of likes to a post.
         """
         representation = super().to_representation(instance)
-        print(instance)
-        representation['total_likes'] = instance.total_likes()
+        representation['total_likes'] = instance.total_likes
         return representation
 
     def get_is_fan(self, obj) -> bool:

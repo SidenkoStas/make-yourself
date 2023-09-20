@@ -1,3 +1,4 @@
+from django.db.models import Count
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListAPIView
 from blog.models import Category, Post, Comment
@@ -19,7 +20,7 @@ class PostsViewSet(LikedMixin, ModelViewSet):
     """
     View for manage posts of blog
     """
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().annotate(total_likes=Count("likes"))
     serializer_class = PostSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, )
 
@@ -28,6 +29,6 @@ class CommentsViewSet(LikedMixin, ModelViewSet):
     """
     View for manage comments of blog's posts
     """
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().annotate(total_likes=Count("likes"))
     serializer_class = CommentSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, )

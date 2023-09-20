@@ -105,7 +105,7 @@ class PostTest(BaseTest):
         pk = post.pk
         self.client.delete(f"/blog/posts/{pk}/")
         post = Post.objects.filter(pk=pk)
-        self.assertEqual(bool(post), False)
+        self.assertEqual(post.exists(), False)
 
 
 class CommentTest(BaseTest):
@@ -159,4 +159,4 @@ class CommentTest(BaseTest):
         pk = comment.pk
         self.client.delete(f"/blog/comments/{pk}/")
         comment = Comment.objects.filter(pk=pk)
-        self.assertEqual(bool(comment), False)
+        self.assertEqual(comment.exists(), False)
