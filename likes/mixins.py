@@ -1,8 +1,7 @@
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from likes import services
+from likes.services import LikeServices
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from likes.services import is_fan
 
 
 class LikedMixin:
@@ -19,10 +18,11 @@ class LikedMixin:
         Manage obj's like
         """
         obj = self.get_object()
+        like_services = LikeServices(obj, request.user)
         if request.method == "POST":
-            services.add_like(obj, request.user)
+            like_services.add_like()
         elif request.method == "DELETE":
-            services.remove_like(obj, request.user)
+            like_services.remove_like()
         return Response()
 
 
@@ -43,4 +43,5 @@ class LikeSerializerMixin:
         Check if user add like to a post or not.
         """
         user = self.context.get('request').user
-        return is_fan(obj, user)
+        like_services = LikeServices(obj, user)
+        return like_services.is_fan()

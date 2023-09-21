@@ -5,33 +5,39 @@ from .models import Like
 User = get_user_model()
 
 
-def add_like(obj, user):
+class LikeServices:
     """
-    Add like to `obj`.
+    Service for manage likes.
     """
-    obj_type = ContentType.objects.get_for_model(obj)
-    like, is_created = Like.objects.get_or_create(
-        content_type=obj_type, object_id=obj.id, user=user)
-    return like
+    def __init__(self, obj, user):
+        self.obj = obj
+        self.user = user
 
+    def add_like(self):
+        """
+        Add like to `obj`.
+        """
+        obj_type = ContentType.objects.get_for_model(self.obj)
+        like, is_created = Like.objects.get_or_create(
+            content_type=obj_type, object_id=self.obj.id, user=self.user)
+        return like
 
-def remove_like(obj, user):
-    """
-    Remove like to `obj`.
-    """
-    obj_type = ContentType.objects.get_for_model(obj)
-    Like.objects.filter(
-        content_type=obj_type, object_id=obj.id, user=user
-    ).delete()
+    def remove_like(self):
+        """
+        Remove like to `obj`.
+        """
+        obj_type = ContentType.objects.get_for_model(self.obj)
+        Like.objects.filter(
+            content_type=obj_type, object_id=self.obj.id, user=self.user
+        ).delete()
 
-
-def is_fan(obj, user) -> bool:
-    """
-    Check `user` like to `obj`.
-    """
-    if not user.is_authenticated:
-        return False
-    obj_type = ContentType.objects.get_for_model(obj)
-    likes = Like.objects.filter(
-        content_type=obj_type, object_id=obj.id, user=user)
-    return likes.exists()
+    def is_fan(self) -> bool:
+        """
+        Check `user` like to `obj`.
+        """
+        if not self.user.is_authenticated:
+            return False
+        obj_type = ContentType.objects.get_for_model(self.obj)
+        likes = Like.objects.filter(
+            content_type=obj_type, object_id=self.obj.id, user=self.user)
+        return likes.exists()
