@@ -2,6 +2,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from likes.services import LikeServices
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from django.db.models import Prefetch, Count
+from likes.models import Like
 
 
 class LikedMixin:
@@ -24,6 +26,20 @@ class LikedMixin:
         elif request.method == "DELETE":
             like_services.remove_like()
         return Response()
+
+    def get_queryset(self):
+        """
+        Add to common get_queryset prefetch likes to user.
+        """
+        user = self.request.user
+        queryset = super().get_queryset()
+        queryset = queryset.prefetch_related(
+            Prefetch(
+                'likes', queryset=Like.objects.filter(user=user),
+                to_attr='user_likes'
+            )
+        ).annotate(total_likes=Count("likes"))
+        return queryset
 
 
 class LikeSerializerMixin:

@@ -37,7 +37,5 @@ class LikeServices:
         """
         if not self.user.is_authenticated:
             return False
-        obj_type = ContentType.objects.get_for_model(self.obj)
-        likes = Like.objects.filter(
-            content_type=obj_type, object_id=self.obj.id, user=self.user)
-        return likes.exists()
+        return bool(self.obj.user_likes)
+
