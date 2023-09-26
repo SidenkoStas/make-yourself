@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericRelation
 from likes.models import Like
+from mptt.models import TreeForeignKey, MPTTModel
 
 
 class PostCommentBase(models.Model):
@@ -66,18 +67,24 @@ class Post(PostCommentBase):
         return f"{self.title}"
 
 
-class Comment(PostCommentBase):
+class Comment(MPTTModel, PostCommentBase):
     """
     Comment for Post model
     """
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    parent = models.ForeignKey(
-        "self", null=True, blank=True, on_delete=models.CASCADE
+    parent = TreeForeignKey(
+        "self", null=True, blank=True, on_delete=models.CASCADE,
+        verbose_name="Родительский комментарий",
+        related_name='children'
     )
+
+    class MTTMeta:
+        order_insertion_by = ('-creation_date',)
 
     class Meta:
         verbose_name = "Комментарий"
         verbose_name_plural = "Комментарии"
+        ordering = ["-creation_date"]
 
     def __str__(self):
         return f"Author: {self.author_id} | Post: {self.post_id}"

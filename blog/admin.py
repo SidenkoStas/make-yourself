@@ -1,6 +1,6 @@
 from django.contrib import admin
 from blog.models import Category, Post, Comment
-
+from mptt.admin import DraggableMPTTAdmin
 
 class AdminBase(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["title"]}
@@ -18,8 +18,8 @@ class PostAdmin(AdminBase):
     list_filter = ("is_published", )
 
 
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ("pk", "post", "author")
+class CommentAdmin(DraggableMPTTAdmin):
+    list_display = ('tree_actions', 'indented_title', "pk", "post", "author")
     list_display_links = ("pk", "post")
 
 

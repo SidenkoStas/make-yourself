@@ -33,16 +33,5 @@ class CommentSerializer(LikeSerializerMixin, serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = "__all__"
-
-
-
-
-
-    # children_comments = serializers.SerializerMethodField()
-    #
-    # def get_children_comments(self, obj):
-    #     # print(obj.comment_set.select_related("parent").all())
-    #     # r = obj.comment_set.select_related("parent").values("id", "author", "content")
-    #     return obj.comment_set.select_related("parent").values("id", "author", "content")
-    #     # return r
+        fields = ("id", "creation_date", "author", "parent", "content", "post",
+                  "is_fan", "children")

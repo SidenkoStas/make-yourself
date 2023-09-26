@@ -1,3 +1,4 @@
+from django.db.models import Prefetch
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListAPIView
 from blog.models import Category, Post, Comment
@@ -31,3 +32,12 @@ class CommentsViewSet(LikedMixin, ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, )
+
+    def get_queryset(self):
+        """
+        Add to common get_queryset prefetch comment children.
+        """
+        user = self.request.user
+        queryset = super().get_queryset()
+        queryset = queryset.prefetch_related('children')
+        return queryset

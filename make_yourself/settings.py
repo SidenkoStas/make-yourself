@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "debug_toolbar",
     "drf_spectacular",
+    "mptt",
     # Свои приложения
     "users.apps.UsersConfig",
     "common.apps.CommonConfig",
@@ -170,7 +171,6 @@ DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
 
 
 REST_FRAMEWORK = {
-    # YOUR SETTINGS
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
@@ -180,5 +180,6 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'Website for self-education and self-study',
     'VERSION': '0.2.0',
     'SERVE_INCLUDE_SCHEMA': False,
-    # OTHER SETTINGS
 }
+
+MPTT_ADMIN_LEVEL_INDENT = 30
