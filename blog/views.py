@@ -1,6 +1,7 @@
-from django.db.models import Prefetch
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListAPIView
+
+from blog.mixins import CustomCreateModelMixin
 from blog.models import Category, Post, Comment
 from blog.serializers import (CategorySerializer, PostSerializer,
                               CommentSerializer)
@@ -16,7 +17,9 @@ class CategoriesListView(ListAPIView):
     serializer_class = CategorySerializer
 
 
-class PostsViewSet(LikedMixin, ModelViewSet):
+class PostsViewSet(LikedMixin,
+                   CustomCreateModelMixin,
+                   ModelViewSet):
     """
     View for manage posts of blog
     """
@@ -25,7 +28,9 @@ class PostsViewSet(LikedMixin, ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly, )
 
 
-class CommentsViewSet(LikedMixin, ModelViewSet):
+class CommentsViewSet(LikedMixin,
+                      CustomCreateModelMixin,
+                      ModelViewSet):
     """
     View for manage comments of blog's posts
     """

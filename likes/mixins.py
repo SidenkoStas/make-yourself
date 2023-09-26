@@ -35,7 +35,7 @@ class LikedMixin:
         queryset = super().get_queryset()
         queryset = queryset.prefetch_related(
             Prefetch(
-                'likes', queryset=Like.objects.filter(user=user),
+                'likes', queryset=Like.objects.filter(user=user.pk),
                 to_attr='user_likes'
             )
         ).annotate(total_likes=Count("likes"))

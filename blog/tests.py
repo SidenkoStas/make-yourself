@@ -61,7 +61,6 @@ class PostTest(BaseTest):
              "author": user.pk,
              "category": category.pk}
         )
-
         pk = post.data["id"]
         post_check = Post.objects.get(pk=pk)
         self.assertEqual(post_check.title, "Second_Post")

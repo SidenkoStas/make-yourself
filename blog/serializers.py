@@ -35,3 +35,4 @@ class CommentSerializer(LikeSerializerMixin, serializers.ModelSerializer):
         model = Comment
         fields = ("id", "creation_date", "author", "parent", "content", "post",
                   "is_fan", "children")
+        extra_kwargs = {'children': {'required': False}}
