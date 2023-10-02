@@ -1,5 +1,3 @@
-from allauth.account.views import ConfirmEmailView
-from dj_rest_auth.registration.views import VerifyEmailView
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls.static import static
@@ -16,11 +14,8 @@ urlpatterns = [
          name="swagger-ui"),
     path("", include("common.urls", namespace="common")),
     path("blog/", include("blog.urls", namespace="blog")),
-    # path("users/", include("users.urls")),
-    path("users/", include("dj_rest_auth.urls")),
-    path("users/registration/", include("dj_rest_auth.registration.urls")),
-    re_path(r"^account-confirm-email/(?P<key>[-:\w]+)/$",
-            TemplateView.as_view(template_name="users/test.html"), name="account_confirm_email"),
+    path("account/", include("users.urls")),
+
 ]
 
 if settings.DEBUG:

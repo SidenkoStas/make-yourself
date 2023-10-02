@@ -51,10 +51,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "drf_spectacular",
     "mptt",
-    "allauth",
-    "allauth.account",
-    "dj_rest_auth",
-    "dj_rest_auth.registration",
+    "djoser",
     # My apps
     "users.apps.UsersConfig",
     "common.apps.CommonConfig",
@@ -73,7 +70,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # Added middlewares
     "debug_toolbar.middleware.DebugToolbarMiddleware",
-    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "make_yourself.urls"
@@ -184,7 +180,6 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    "TEST_REQUEST_DEFAULT_FORMAT": "json",
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
     ]
@@ -199,17 +194,10 @@ SPECTACULAR_SETTINGS = {
 
 MPTT_ADMIN_LEVEL_INDENT = 30
 
-AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
-]
-
-SITE_ID = 1
-
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL =\
-    'http://localhost:8000/users/login/'
-LOGIN_URL = 'http://localhost:8000/users/login/'
-
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'users.serializers.UserProfileSerializer'
+DJOSER = {
+    "PASSWORD_RESET_CONFIRM_URL": "#/password/reset/confirm/{uid}/{token}",
+    "USERNAME_RESET_CONFIRM_URL": "#/username/reset/confirm/{uid}/{token}",
+    "ACTIVATION_URL": "#/activate/{uid}/{token}",
+    "SEND_CONFIRMATION_EMAIL": True,
+    "SERIALIZERS": {},
 }
