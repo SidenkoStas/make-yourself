@@ -161,9 +161,6 @@ INTERNAL_IPS = [
 # Загрузка своей модели пользователей
 AUTH_USER_MODEL = "users.CustomUser"
 
-LOGIN_REDIRECT_URL = "common:index"
-LOGOUT_REDIRECT_URL = "common:index"
-
 # Print email in console without sending.
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # Настройки email
@@ -173,9 +170,6 @@ EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = env("EMAIL_PORT")
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
-
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
 
 REST_FRAMEWORK = {
@@ -194,10 +188,17 @@ SPECTACULAR_SETTINGS = {
 
 MPTT_ADMIN_LEVEL_INDENT = 30
 
+SITE_NAME = "Make Yourself"
+
 DJOSER = {
-    "PASSWORD_RESET_CONFIRM_URL": "#/password/reset/confirm/{uid}/{token}",
-    "USERNAME_RESET_CONFIRM_URL": "#/username/reset/confirm/{uid}/{token}",
-    "ACTIVATION_URL": "#/activate/{uid}/{token}",
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
+    "SET_PASSWORD_RETYPE": True,
+    "PASSWORD_RESET_CONFIRM_RETYPE": True,
+    "PASSWORD_RESET_CONFIRM_URL":
+        "/account/password/reset/confirm/{uid}/{token}",
+    "ACTIVATION_URL": "account/activate/{uid}/{token}",
+    "SEND_ACTIVATION_EMAIL": True,
     "SEND_CONFIRMATION_EMAIL": True,
+    "LOGOUT_ON_PASSWORD_CHANGE": True,
     "SERIALIZERS": {},
 }
