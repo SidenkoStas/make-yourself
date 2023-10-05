@@ -37,6 +37,18 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser
 ```
+### Для полноценной работы неоходимо:
+
+***Проверить работает ли сервер Redis.***
+
+```
+redis-cli ping # Овет PONG
+```
+***Запустить рабочего Celery.***
+
+```
+celery -A make_yourself worker -l INFO
+```
 
 **Запустите сервер Django:**
 
