@@ -103,7 +103,6 @@ def password_reset(request, uid, token):
                 "re_new_password": request.data["re_new_password"]
                 }
         req = requests.post(url, data=data)
-        print(request.headers["Authorization"])
         if req.status_code == 400:
             return Response({"message": "Bad request!"})
         logout_url = "http://127.0.0.1:8000/account/token/logout/"

@@ -1,10 +1,10 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListAPIView
-
 from blog.mixins import CustomCreateModelMixin
 from blog.models import Category, Post, Comment
 from blog.serializers import (CategorySerializer, PostSerializer,
                               CommentSerializer)
+from make_yourself.permissions import IsOwnerOrReadOnly
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from likes.mixins import LikedMixin
 
@@ -25,7 +25,7 @@ class PostsViewSet(LikedMixin,
     """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly, )
+    permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, )
 
 
 class CommentsViewSet(LikedMixin,
@@ -36,13 +36,12 @@ class CommentsViewSet(LikedMixin,
     """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly, )
+    permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, )
 
     def get_queryset(self):
         """
         Add to common get_queryset prefetch comment children.
         """
-        user = self.request.user
         queryset = super().get_queryset()
         queryset = queryset.prefetch_related('children')
         return queryset
