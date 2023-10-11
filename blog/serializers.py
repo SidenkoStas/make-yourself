@@ -12,13 +12,24 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class PostSerializer(LikeSerializerMixin, serializers.ModelSerializer):
+class ListPostsSerializer(LikeSerializerMixin, serializers.ModelSerializer):
+    """
+    Serializer for list of posts
+    """
+    view_counter = serializers.IntegerField(source="get_view_count")
+
+    class Meta:
+        model = Post
+        fields = ["title", "category", "creation_date", "author", "content",
+                  "view_counter"]
+
+
+class PostSerializer(ListPostsSerializer):
     """
     Serializer for Post model
     """
     is_fan = serializers.SerializerMethodField()
     published = serializers.BooleanField(source="is_published", default=False)
-    view_counter = serializers.IntegerField(source="get_view_count")
 
     class Meta:
         model = Post

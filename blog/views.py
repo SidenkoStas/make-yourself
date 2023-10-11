@@ -3,7 +3,7 @@ from rest_framework.generics import ListAPIView
 from blog.mixins import CustomCreateModelMixin
 from blog.models import Category, Post, Comment
 from blog.serializers import (CategorySerializer, PostSerializer,
-                              CommentSerializer)
+                              CommentSerializer, ListPostsSerializer)
 from make_yourself.permissions import IsOwnerOrReadOnly
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from likes.mixins import LikedMixin
@@ -26,15 +26,21 @@ class PostsViewSet(LikedMixin,
     View for manage posts of blog
     """
     queryset = Post.objects.all()
-    serializer_class = PostSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, )
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ListPostsSerializer
+        return PostSerializer
 
     def get_queryset(self):
         """
         Add to common get_queryset prefetch view to a post.
         """
         queryset = super().get_queryset()
-        queryset = queryset.prefetch_related("views")
+        queryset = (
+            queryset.prefetch_related("views").order_by("-creation_date")
+        )
         return queryset
 
 
