@@ -23,6 +23,22 @@ class PostCommentBase(models.Model):
     likes = GenericRelation(Like)
 
 
+class View(models.Model):
+    """
+    Collect all viewers of a post.
+    """
+    article = models.ForeignKey("Post", on_delete=models.CASCADE,
+                                related_name="views")
+    ipaddress = models.GenericIPAddressField(verbose_name="IP адресс")
+
+    class Meta:
+        verbose_name = "Просмотр"
+        verbose_name_plural = "Просмотры"
+
+    def __str__(self):
+        return f"{self.article} - {self.ipaddress}"
+
+
 class Category(models.Model):
     """
     Category for blog's posts
@@ -66,15 +82,21 @@ class Post(PostCommentBase):
     def __str__(self):
         return f"{self.title}"
 
+    def get_view_count(self):
+        """
+        Count all views for a post.
+        """
+        return self.views.count()
+
 
 class Comment(MPTTModel, PostCommentBase):
     """
-    Comment for Post model
+    Comment for the Post model.
     """
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     parent = TreeForeignKey(
         "self", null=True, blank=True, on_delete=models.CASCADE,
-        verbose_name="Потомки комментария",
+        verbose_name="Родительский комментарий",
         related_name='children'
     )
 

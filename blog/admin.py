@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Category, Post, Comment
+from blog.models import Category, Post, Comment, View
 from mptt.admin import DraggableMPTTAdmin
 
 class AdminBase(admin.ModelAdmin):
@@ -26,3 +26,4 @@ class CommentAdmin(DraggableMPTTAdmin):
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(View)

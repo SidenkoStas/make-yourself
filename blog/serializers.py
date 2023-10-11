@@ -18,11 +18,13 @@ class PostSerializer(LikeSerializerMixin, serializers.ModelSerializer):
     """
     is_fan = serializers.SerializerMethodField()
     published = serializers.BooleanField(source="is_published", default=False)
+    view_counter = serializers.IntegerField(source="get_view_count")
 
     class Meta:
         model = Post
         fields = ["id", "slug", "published", "creation_date", "category",
-                  "author", "title", "content", "publish_date", "is_fan"]
+                  "author", "title", "content", "publish_date", "is_fan",
+                  "view_counter"]
 
 
 class CommentSerializer(LikeSerializerMixin, serializers.ModelSerializer):
