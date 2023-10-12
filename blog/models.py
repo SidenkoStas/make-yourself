@@ -93,7 +93,9 @@ class Comment(MPTTModel, PostCommentBase):
     """
     Comment for the Post model.
     """
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="comments"
+    )
     parent = TreeForeignKey(
         "self", null=True, blank=True, on_delete=models.CASCADE,
         verbose_name="Родительский комментарий",

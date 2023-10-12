@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListAPIView
-from blog.mixins import CustomCreateModelMixin
+from blog.mixins import CustomCreateModelMixin, CountComments
 from blog.models import Category, Post, Comment
 from blog.serializers import (CategorySerializer, PostSerializer,
                               CommentSerializer, ListPostsSerializer)
@@ -20,6 +20,7 @@ class CategoriesListView(ListAPIView):
 
 class PostsViewSet(LikedMixin,
                    ViewMixin,
+                   CountComments,
                    CustomCreateModelMixin,
                    ModelViewSet):
     """
@@ -29,6 +30,9 @@ class PostsViewSet(LikedMixin,
     permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, )
 
     def get_serializer_class(self):
+        """
+        Return suitable serializer based on an action.
+        """
         if self.action == 'list':
             return ListPostsSerializer
         return PostSerializer

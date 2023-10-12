@@ -38,7 +38,7 @@ class LikedMixin:
                 'likes', queryset=Like.objects.filter(user=user.pk),
                 to_attr='user_likes'
             )
-        ).annotate(total_likes=Count("likes"))
+        ).annotate(total_likes=Count("likes", distinct=True))
         return queryset
 
 

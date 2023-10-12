@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from blog.models import Category, Post, Comment
 from likes.mixins import LikeSerializerMixin
+from blog.mixins import CountCommentsSerializerMixin
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -12,7 +13,9 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ListPostsSerializer(LikeSerializerMixin, serializers.ModelSerializer):
+class ListPostsSerializer(LikeSerializerMixin,
+                          CountCommentsSerializerMixin,
+                          serializers.ModelSerializer):
     """
     Serializer for list of posts
     """
