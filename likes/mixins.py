@@ -46,14 +46,6 @@ class LikeSerializerMixin:
     """
     Parent class for managing like.
     """
-    def to_representation(self, instance):
-        """
-        Counting total amount of likes to a post.
-        """
-        representation = super().to_representation(instance)
-        representation['total_likes'] = instance.total_likes
-        return representation
-
     def get_is_fan(self, obj) -> bool:
         """
         Check if user add like to a post or not.

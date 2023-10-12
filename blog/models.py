@@ -82,12 +82,6 @@ class Post(PostCommentBase):
     def __str__(self):
         return f"{self.title}"
 
-    def get_view_count(self):
-        """
-        Count all views for a post.
-        """
-        return self.views.count()
-
 
 class Comment(MPTTModel, PostCommentBase):
     """

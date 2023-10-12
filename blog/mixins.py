@@ -26,12 +26,21 @@ class ViewMixin:
     """
     def get_object(self):
         """
-        Get object. Check and add unique view for user.
+        Get object. Check and add unique view for a user.
         """
         obj = super().get_object()
         ip_address = get_client_ip(self.request)
         View.objects.get_or_create(article=obj, ipaddress=ip_address)
         return obj
+
+    def get_queryset(self):
+        """
+        Add to common get_queryset with counting views to a post.
+        """
+        queryset = super().get_queryset()
+        queryset = queryset.annotate(
+            view_count=Count("views", distinct=True))
+        return queryset
 
 
 class CountComments:
@@ -40,7 +49,7 @@ class CountComments:
     """
     def get_queryset(self):
         """
-        Add to common get_queryset prefetch likes to user.
+        Add to common get_queryset with counting comments to a post.
         """
         queryset = super().get_queryset()
         queryset = queryset.annotate(
@@ -49,16 +58,3 @@ class CountComments:
             )
         )
         return queryset
-
-
-class CountCommentsSerializerMixin:
-    """
-    Adds fields to represent the number of comments.
-    """
-    def to_representation(self, instance):
-        """
-        Counting total amount of general comments to a post.
-        """
-        representation = super().to_representation(instance)
-        representation['amount_comments'] = instance.amount_comments
-        return representation

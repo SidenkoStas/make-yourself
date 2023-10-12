@@ -42,8 +42,9 @@ class PostsViewSet(LikedMixin,
         Add to common get_queryset prefetch view to a post.
         """
         queryset = super().get_queryset()
+
         queryset = (
-            queryset.prefetch_related("views").order_by("-creation_date")
+            queryset.order_by("-creation_date")
         )
         return queryset
 

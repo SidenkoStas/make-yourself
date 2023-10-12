@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from blog.models import Category, Post, Comment
 from likes.mixins import LikeSerializerMixin
-from blog.mixins import CountCommentsSerializerMixin
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -14,17 +13,18 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ListPostsSerializer(LikeSerializerMixin,
-                          CountCommentsSerializerMixin,
                           serializers.ModelSerializer):
     """
     Serializer for list of posts
     """
-    view_counter = serializers.IntegerField(source="get_view_count")
+    total_likes = serializers.IntegerField()
+    amount_comments = serializers.IntegerField()
+    view_count = serializers.IntegerField()
 
     class Meta:
         model = Post
         fields = ["title", "category", "creation_date", "author", "content",
-                  "view_counter"]
+                  "view_count", "total_likes", "amount_comments"]
 
 
 class PostSerializer(ListPostsSerializer):
@@ -38,7 +38,7 @@ class PostSerializer(ListPostsSerializer):
         model = Post
         fields = ["id", "slug", "published", "creation_date", "category",
                   "author", "title", "content", "publish_date", "is_fan",
-                  "view_counter"]
+                  "view_count", "total_likes", "amount_comments"]
 
 
 class CommentSerializer(LikeSerializerMixin, serializers.ModelSerializer):
@@ -46,9 +46,10 @@ class CommentSerializer(LikeSerializerMixin, serializers.ModelSerializer):
     Serializer for Comment model
     """
     is_fan = serializers.SerializerMethodField()
+    total_likes = serializers.IntegerField()
 
     class Meta:
         model = Comment
         fields = ("id", "creation_date", "author", "parent", "content", "post",
-                  "is_fan", "children")
+                  "is_fan", "children", "total_likes")
         extra_kwargs = {'children': {'required': False}}
