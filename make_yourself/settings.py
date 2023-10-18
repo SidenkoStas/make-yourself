@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     "common.apps.CommonConfig",
     "skill_tests.apps.SkillTestsConfig",
     "blog.apps.BlogConfig",
-    "likes.apps.LikesConfig"
+    "likes.apps.LikesConfig",
+    "rating.apps.RatingConfig"
 ]
 
 MIDDLEWARE = [

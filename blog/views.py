@@ -8,6 +8,7 @@ from make_yourself.permissions import IsOwnerOrReadOnly
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from likes.mixins import LikedMixin
 from blog.mixins import ViewMixin
+from rating.mixins import RatingMixin
 
 
 class CategoriesListView(ListAPIView):
@@ -19,6 +20,7 @@ class CategoriesListView(ListAPIView):
 
 
 class PostsViewSet(LikedMixin,
+                   RatingMixin,
                    ViewMixin,
                    CountComments,
                    CustomCreateModelMixin,

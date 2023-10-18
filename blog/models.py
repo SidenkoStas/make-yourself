@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericRelation
 from likes.models import Like
 from mptt.models import TreeForeignKey, MPTTModel
+from rating.models import Score
 
 
 class PostCommentBase(models.Model):
@@ -73,6 +74,10 @@ class Post(PostCommentBase):
     )
     publish_date = models.DateTimeField(
         null=True, blank=True, verbose_name="Дата публикации"
+    )
+    rating = models.ManyToManyField(
+        Score, blank=True, related_name="post",
+        verbose_name="Оценка"
     )
 
     class Meta:
