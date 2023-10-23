@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListAPIView
 from blog.mixins import CustomCreateModelMixin, CountComments
@@ -9,6 +10,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from likes.mixins import LikedMixin
 from blog.mixins import ViewMixin
 from rating.mixins import RatingMixin
+from blog.filters import ProductFilter
 
 
 class CategoriesListView(ListAPIView):
@@ -30,12 +32,14 @@ class PostsViewSet(LikedMixin,
     """
     queryset = Post.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, )
+    filterset_class = ProductFilter
+    filter_backends = (DjangoFilterBackend, )
 
     def get_serializer_class(self):
         """
         Return suitable serializer based on an action.
         """
-        if self.action == 'list':
+        if self.action == "list":
             return ListPostsSerializer
         return PostSerializer
 
@@ -66,5 +70,5 @@ class CommentsViewSet(LikedMixin,
         Add to common get_queryset prefetch comment children.
         """
         queryset = super().get_queryset()
-        queryset = queryset.prefetch_related('children')
+        queryset = queryset.prefetch_related("children")
         return queryset

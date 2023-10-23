@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericRelation
+from django.db.models import Avg
 from likes.models import Like
 from mptt.models import TreeForeignKey, MPTTModel
 from rating.models import Score
@@ -55,6 +56,14 @@ class Category(models.Model):
         return f"{self.title}"
 
 
+class RatingManager(models.Manager):
+    def get_queryset(self):
+        qs = super().get_queryset().annotate(
+            average_rating=Avg("rating__score")
+        )
+        return qs
+
+
 class Post(PostCommentBase):
     """
     Blog's post model
@@ -79,6 +88,7 @@ class Post(PostCommentBase):
         Score, blank=True, related_name="post",
         verbose_name="Оценка"
     )
+    objects = RatingManager()
 
     class Meta:
         verbose_name = "Пост"

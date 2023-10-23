@@ -45,14 +45,15 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # Other added apps
+    # Other added apps:
     "rest_framework",
     "rest_framework.authtoken",
     "debug_toolbar",
     "drf_spectacular",
     "mptt",
     "djoser",
-    # My apps
+    "django_filters",
+    # My apps:
     "users.apps.UsersConfig",
     "common.apps.CommonConfig",
     "skill_tests.apps.SkillTestsConfig",
@@ -69,7 +70,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # Added middlewares
+    # Added middlewares:
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
