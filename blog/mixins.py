@@ -16,8 +16,12 @@ class CustomCreateModelMixin(CreateModelMixin):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        slug = request.data["slug"]
-        data = model_to_dict(super().get_queryset().get(slug=slug))
+        try:
+            slug = request.data["slug"]
+            data = model_to_dict(super().get_queryset().get(slug=slug))
+        except KeyError:
+            content = request.data["content"]
+            data = model_to_dict(super().get_queryset().get(content=content))
         headers = self.get_success_headers(data)
         return Response(data, status=status.HTTP_201_CREATED, headers=headers)
 

@@ -19,6 +19,7 @@ class CategoriesListView(ListAPIView):
     """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    pagination_class = None
 
 
 class PostsViewSet(LikedMixin,
