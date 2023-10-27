@@ -109,10 +109,10 @@ class PostTest(BaseTest):
         )
         force_authenticate(request, user=user, token=user.auth_token)
         response = view(request, pk=post.pk)
-        data = response.data
-        self.assertEqual(data["title"], "Change_Post")
-        self.assertEqual(data["content"], "Change content")
-        self.assertEqual(data["slug"], "change-content")
+        post = Post.objects.get(slug="change-content")
+        self.assertEqual(post.title, "Change_Post")
+        self.assertEqual(post.content, "Change content")
+        self.assertEqual(post.slug, "change-content")
 
     def test_delete(self):
         view = PostsViewSet.as_view({"delete": "destroy"})
@@ -177,8 +177,8 @@ class CommentTest(BaseTest):
         )
         force_authenticate(request, user=user, token=user.auth_token)
         response = view(request, pk=comment.pk)
-        data = response.data
-        self.assertEqual(data["content"], "Change comment")
+        comment = Comment.objects.get(content="Change comment")
+        self.assertEqual(comment.content, "Change comment")
 
     def test_delete(self):
         view = CommentsViewSet.as_view({"delete": "destroy"})
