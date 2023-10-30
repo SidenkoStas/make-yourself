@@ -2,6 +2,7 @@ from django.contrib import admin
 from blog.models import Category, Post, Comment, View
 from mptt.admin import DraggableMPTTAdmin
 
+
 class AdminBase(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["title"]}
     list_display_links = ("pk", "title")
