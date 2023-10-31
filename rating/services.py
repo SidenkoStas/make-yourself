@@ -1,4 +1,5 @@
 from rating.models import Score
+from django.db.models import Q
 
 
 class RatingServices:
@@ -18,9 +19,10 @@ class RatingServices:
         if score not in (1, 2, 3, 4, 5):
             raise KeyError
         score, is_created = Score.objects.get_or_create(
-            score=score, user=self.user, model_type=model_type,
-            object_id=self.obj.id
+            user=self.user, model_type=model_type,
+            object_id=self.obj.id, defaults={"score": score}
         )
+        print(score, is_created)
         return score, is_created
 
     def remove_score(self):
@@ -46,4 +48,3 @@ class RatingServices:
             return score.score
         except:
             return 0
-

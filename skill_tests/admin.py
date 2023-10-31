@@ -1,6 +1,5 @@
 from django.contrib import admin
 from skill_tests.models import Category, Question, SkillTest, TestStatistic
-from django.contrib.admin import ModelAdmin
 
 
 class AdminBase(admin.ModelAdmin):

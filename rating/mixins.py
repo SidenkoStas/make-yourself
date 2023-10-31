@@ -38,14 +38,14 @@ class RatingMixin:
             rating_services.remove_score()
         return Response({"detail": "Done"})
 
-    # def get_queryset(self):
-    #     """
-    #     Add to common get_queryset average object's rating.
-    #     """
-    #     user = self.request.user
-    #     queryset = super().get_queryset()
-    #     queryset = queryset.annotate(average_rating=Avg("rating__score"))
-    #     return queryset
+    def get_queryset(self):
+        """
+        Add to common get_queryset average object's rating.
+        """
+        user = self.request.user
+        queryset = super().get_queryset()
+        queryset = queryset.annotate(average_rating=Avg("rating__score"))
+        return queryset
 
 
 class RatingSerializerMixin:

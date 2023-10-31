@@ -56,14 +56,6 @@ class Category(models.Model):
         return f"{self.title}"
 
 
-class RatingManager(models.Manager):
-    def get_queryset(self):
-        qs = super().get_queryset().annotate(
-            average_rating=Avg("rating__score")
-        )
-        return qs
-
-
 class Post(PostCommentBase):
     """
     Blog's post model
@@ -88,7 +80,6 @@ class Post(PostCommentBase):
         Score, blank=True, related_name="post",
         verbose_name="Оценка"
     )
-    objects = RatingManager()
 
     class Meta:
         verbose_name = "Пост"
