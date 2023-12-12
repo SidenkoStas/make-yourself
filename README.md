@@ -2,6 +2,8 @@
 - Python
 - Django
 - Django Rest Framework
+- Celery
+- Redis
 - Swagger
 
 # Инструкция для запуска.

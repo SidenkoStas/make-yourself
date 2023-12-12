@@ -72,6 +72,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # Added middlewares:
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "make_yourself.middleware.SQLCounterMiddleware"
 ]
 
 ROOT_URLCONF = "make_yourself.urls"
