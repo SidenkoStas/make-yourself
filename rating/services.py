@@ -22,7 +22,6 @@ class RatingServices:
             user=self.user, model_type=model_type,
             object_id=self.obj.id, defaults={"score": score}
         )
-        print(score, is_created)
         return score, is_created
 
     def remove_score(self):

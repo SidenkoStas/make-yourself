@@ -64,3 +64,7 @@ python manage.py runserver
 Для просмотра swagger документации используйется
 
 http://localhost:8000/api/schema/docs/
+
+## Диаграмма связей бизнес-сущностей
+
+![model_diagram.svg](model_diagram.svg)

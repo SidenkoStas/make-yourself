@@ -27,7 +27,7 @@ class PostCommentBase(models.Model):
 
 class View(models.Model):
     """
-    Collect all viewers of a post.
+    View model.
     """
     article = models.ForeignKey("Post", on_delete=models.CASCADE,
                                 related_name="views")
@@ -43,7 +43,7 @@ class View(models.Model):
 
 class Category(models.Model):
     """
-    Category for blog's posts
+    Blog's category model.
     """
     slug = models.SlugField(db_index=True, unique=True)
     title = models.CharField(max_length=255, verbose_name="Категория")
