@@ -206,6 +206,7 @@ DJOSER = {
     "SEND_CONFIRMATION_EMAIL": True,
     "LOGOUT_ON_PASSWORD_CHANGE": True,
     "SERIALIZERS": {},
+    # "SERIALIZERS": {'user_create': 'users.serializers.UserSerializer'},
 }
 
 CELERY_TIMEZONE = "Europe/Moscow"
