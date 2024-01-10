@@ -9,14 +9,18 @@ from djoser.conf import settings
 from rest_framework import status
 from users.tasks import send_email
 from users.services import get_email_context
+from .dumb_db.mixins import WorkWithDBMixin
 
 
-class CustomUserViewSet(UserViewSet):
+class CustomUserViewSet(WorkWithDBMixin, UserViewSet):
     """
-    Added sending mail through Celery.
+    Manage users.
     """
     @action(["post"], detail=False)
     def activation(self, request, *args, **kwargs):
+        """
+        Account activation through email link.
+        """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.user
@@ -36,6 +40,9 @@ class CustomUserViewSet(UserViewSet):
 
     @action(["post"], detail=False)
     def resend_activation(self, request, *args, **kwargs):
+        """
+        Resend activation email.
+        """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.get_user(is_active=False)
