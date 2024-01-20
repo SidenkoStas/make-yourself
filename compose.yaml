@@ -1,0 +1,59 @@
+services:
+  db:
+    container_name: database
+    image: postgres
+    restart: unless-stopped
+    volumes:
+      - ./data:/var/lib/postgresgl/data
+    env_file:
+      - ./.env.docker
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+
+  web:
+    container_name: web-app
+    build: ./
+    restart: unless-stopped
+    command: bash -c "python manage.py makemigrations && python manage.py migrate rating &&
+                      python manage.py migrate &&
+                      python manage.py collectstatic --noinput &&
+                      gunicorn make_yourself.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - ./:/make-yourself
+    env_file:
+      - ./.env.docker
+    expose:
+      - "8000"
+    depends_on:
+      - db
+
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    restart: unless-stopped
+    volumes:
+      - ./static:/make-yourself/static
+      - ./media:/make-yourself/media
+    ports:
+      - "8001:80"
+    depends_on:
+      - web
+
+  redis:
+    container_name: redis
+    image: redis
+    restart: unless-stopped
+
+  celery:
+    restart: unless-stopped
+    build:
+      context: .
+    command: celery -A make_yourself worker -l INFO
+    volumes:
+      - ./celery:/celery
+    env_file:
+      - ./.env.docker
+    depends_on:
+      - db
+      - redis
+      - web

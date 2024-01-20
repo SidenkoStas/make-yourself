@@ -71,7 +71,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # Added middlewares:
     "debug_toolbar.middleware.DebugToolbarMiddleware",
-    "make_yourself.middleware.SQLCounterMiddleware"
+    # "make_yourself.middleware.SQLCounterMiddleware" # If need to counting sql queries
 ]
 
 ROOT_URLCONF = "make_yourself.urls"
@@ -101,14 +101,13 @@ WSGI_APPLICATION = "make_yourself.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("NAME"),
-        "USER": env("DB_USER"),
-        "PASSWORD": env("PASSWORD"),
+        "NAME": env("POSTGRES_DB"),
+        "USER": env("POSTGRES_USER"),
+        "PASSWORD": env("POSTGRES_PASSWORD"),
         "HOST": env("HOST"),
-        "PORT": "",
+        "PORT": env("PORT"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -210,5 +209,9 @@ DJOSER = {
 }
 
 CELERY_TIMEZONE = "Europe/Moscow"
+# Для запуска на локальном сервере
 CELERY_BROKER_URL = "redis://localhost:6379//0"
 CELERY_RESULT_BACKEND = "redis://localhost:6379//0"
+# Для запуска в Docker
+# CELERY_BROKER_URL = "redis://redis:6379"
+# CELERY_RESULT_BACKEND = "redis://redis:6379"
