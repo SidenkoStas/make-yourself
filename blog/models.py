@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericRelation
-from django.db.models import Avg
 from likes.models import Like
 from mptt.models import TreeForeignKey, MPTTModel
 from rating.models import Score

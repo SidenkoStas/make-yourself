@@ -8,13 +8,14 @@ class CategorySerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Category
-        fields = "__all__"
+        fields = ("id", "title")
 
 
 class QuestionSerializer(serializers.ModelSerializer):
     """
     Question's serializer.
     """
+
     class Meta:
         model = Question
         fields = "__all__"
@@ -22,8 +23,9 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class SkillTestSerializer(serializers.ModelSerializer):
     """
-    Test of skill serializer.
+    Serializer of test of skill .
     """
+
     class Meta:
         model = SkillTest
         fields = "__all__"

@@ -2,9 +2,11 @@ from rest_framework.generics import ListAPIView
 from skill_tests.models import Category, Question, SkillTest
 from skill_tests.serializers import (CategorySerializer, QuestionSerializer,
                                      SkillTestSerializer)
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from make_yourself.permissions import IsOwnerOrReadOnly
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework import mixins
+from skill_tests.mixins import CustomCreateModelMixin
 
 
 class CategoriesView(ListAPIView):
@@ -13,7 +15,12 @@ class CategoriesView(ListAPIView):
     pagination_class = None
 
 
-class QuestionViewSet(ModelViewSet):
+class QuestionViewSet(CustomCreateModelMixin,
+                      mixins.RetrieveModelMixin,
+                      mixins.UpdateModelMixin,
+                      mixins.DestroyModelMixin,
+                      mixins.ListModelMixin,
+                      GenericViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     permission_classes = (IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly)
@@ -25,7 +32,12 @@ class QuestionViewSet(ModelViewSet):
         return queryset
 
 
-class SkillTestViewSet(ModelViewSet):
+class SkillTestViewSet(CustomCreateModelMixin,
+                       mixins.RetrieveModelMixin,
+                       mixins.UpdateModelMixin,
+                       mixins.DestroyModelMixin,
+                       mixins.ListModelMixin,
+                       GenericViewSet):
     queryset = SkillTest.objects.all()
     serializer_class = SkillTestSerializer
     permission_classes = (IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly)

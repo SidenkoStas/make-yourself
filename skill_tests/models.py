@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 
 class Category(models.Model):
@@ -22,6 +23,7 @@ class Question(models.Model):
     """
     slug = models.SlugField(db_index=True)
     title = models.CharField(max_length=255)
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name="Автор")
     question = models.TextField(verbose_name="Вопрос")
 
     class Meta:
@@ -38,6 +40,7 @@ class SkillTest(models.Model):
     """
     slug = models.SlugField(db_index=True, unique=True)
     title = models.CharField(max_length=150, verbose_name="Название теста")
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name="Автор")
     description = models.TextField(verbose_name="Описание теста")
     category = models.ForeignKey(
         Category, on_delete=models.PROTECT, verbose_name="Категория"

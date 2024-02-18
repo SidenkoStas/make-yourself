@@ -1,0 +1,2100 @@
+openapi: 3.0.3
+info:
+  title: Make Yourself
+  version: 0.2.0
+  description: Website for self-education and self-study
+paths:
+  /account/activate/{uid}/{token}/:
+    get:
+      operationId: account_activate_retrieve
+      description: Account activation through email link.
+      parameters:
+      - in: path
+        name: token
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - account
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /account/password/reset/confirm/{uid}/{token}/:
+    get:
+      operationId: account_password_reset_confirm_retrieve
+      description: Get new password and change it with logout.
+      parameters:
+      - in: path
+        name: token
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - account
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: account_password_reset_confirm_create
+      description: Get new password and change it with logout.
+      parameters:
+      - in: path
+        name: token
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - account
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /account/token/login/:
+    post:
+      operationId: account_token_login_create
+      description: Use this endpoint to obtain user authentication token.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenCreate'
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenCreate'
+          description: ''
+  /account/token/logout/:
+    post:
+      operationId: account_token_logout_create
+      description: Use this endpoint to logout user (remove user authentication token).
+      tags:
+      - account
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /account/users/:
+    get:
+      operationId: account_users_list
+      description: Manage users.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - account
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserList'
+          description: ''
+    post:
+      operationId: account_users_create
+      description: Manage users.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreate'
+          description: ''
+  /account/users/{id}/:
+    get:
+      operationId: account_users_retrieve
+      description: Manage users.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пользователь.
+        required: true
+      tags:
+      - account
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: account_users_update
+      description: Manage users.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пользователь.
+        required: true
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: account_users_partial_update
+      description: Manage users.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пользователь.
+        required: true
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: account_users_destroy
+      description: Manage users.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пользователь.
+        required: true
+      tags:
+      - account
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /account/users/{id}/save_db/:
+    get:
+      operationId: account_users_save_db_retrieve
+      description: Dumb db for user
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пользователь.
+        required: true
+      tags:
+      - account
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    post:
+      operationId: account_users_save_db_create
+      description: Dumb db for user
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пользователь.
+        required: true
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /account/users/activation/:
+    post:
+      operationId: account_users_activation_create
+      description: Account activation through email link.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Activation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Activation'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activation'
+          description: ''
+  /account/users/me/:
+    get:
+      operationId: account_users_me_retrieve
+      description: Manage users.
+      tags:
+      - account
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: account_users_me_update
+      description: Manage users.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: account_users_me_partial_update
+      description: Manage users.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: account_users_me_destroy
+      description: Manage users.
+      tags:
+      - account
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /account/users/resend_activation/:
+    post:
+      operationId: account_users_resend_activation_create
+      description: Resend activation email.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+  /account/users/reset_email/:
+    post:
+      operationId: account_users_reset_email_create
+      description: Manage users.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+  /account/users/reset_email_confirm/:
+    post:
+      operationId: account_users_reset_email_confirm_create
+      description: Manage users.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsernameResetConfirm'
+          description: ''
+  /account/users/reset_password/:
+    post:
+      operationId: account_users_reset_password_create
+      description: Manage users.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+  /account/users/reset_password_confirm/:
+    post:
+      operationId: account_users_reset_password_confirm_create
+      description: Manage users.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirmRetype'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirmRetype'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirmRetype'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordResetConfirmRetype'
+          description: ''
+  /account/users/set_email/:
+    post:
+      operationId: account_users_set_email_create
+      description: Manage users.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetUsername'
+          description: ''
+  /account/users/set_password/:
+    post:
+      operationId: account_users_set_password_create
+      description: Manage users.
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetPasswordRetype'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SetPasswordRetype'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SetPasswordRetype'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetPasswordRetype'
+          description: ''
+  /blog/categories/:
+    get:
+      operationId: blog_categories_list
+      description: View for list all category of blog
+      tags:
+      - blog
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+          description: ''
+  /blog/comments/:
+    get:
+      operationId: blog_comments_list
+      description: View for manage comments of blog's posts
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - blog
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCommentList'
+          description: ''
+    post:
+      operationId: blog_comments_create
+      description: View for manage comments of blog's posts
+      tags:
+      - blog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+  /blog/comments/{id}/:
+    get:
+      operationId: blog_comments_retrieve
+      description: View for manage comments of blog's posts
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Комментарий.
+        required: true
+      tags:
+      - blog
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+    put:
+      operationId: blog_comments_update
+      description: View for manage comments of blog's posts
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Комментарий.
+        required: true
+      tags:
+      - blog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+    patch:
+      operationId: blog_comments_partial_update
+      description: View for manage comments of blog's posts
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Комментарий.
+        required: true
+      tags:
+      - blog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedComment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedComment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedComment'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+    delete:
+      operationId: blog_comments_destroy
+      description: View for manage comments of blog's posts
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Комментарий.
+        required: true
+      tags:
+      - blog
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /blog/comments/{id}/like/:
+    post:
+      operationId: blog_comments_like_create
+      description: Manage obj's like
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Комментарий.
+        required: true
+      tags:
+      - blog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+    delete:
+      operationId: blog_comments_like_destroy
+      description: Manage obj's like
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Комментарий.
+        required: true
+      tags:
+      - blog
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /blog/posts/:
+    get:
+      operationId: blog_posts_list
+      description: View for manage posts of blog
+      parameters:
+      - in: query
+        name: ar__exact
+        schema:
+          type: number
+      - in: query
+        name: ar__gte
+        schema:
+          type: number
+      - in: query
+        name: ar__lte
+        schema:
+          type: number
+      - in: query
+        name: category
+        schema:
+          type: integer
+      - in: query
+        name: cr_date__ex
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: cr_date__gte
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: cr_date__lte
+        schema:
+          type: string
+          format: date
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: popularity__exact
+        schema:
+          type: number
+      - in: query
+        name: popularity__gte
+        schema:
+          type: number
+      - in: query
+        name: popularity__lte
+        schema:
+          type: number
+      tags:
+      - blog
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedListPostsList'
+          description: ''
+    post:
+      operationId: blog_posts_create
+      description: View for manage posts of blog
+      tags:
+      - blog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Post'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+  /blog/posts/{id}/:
+    get:
+      operationId: blog_posts_retrieve
+      description: View for manage posts of blog
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пост.
+        required: true
+      tags:
+      - blog
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+    put:
+      operationId: blog_posts_update
+      description: View for manage posts of blog
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пост.
+        required: true
+      tags:
+      - blog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Post'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+    patch:
+      operationId: blog_posts_partial_update
+      description: View for manage posts of blog
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пост.
+        required: true
+      tags:
+      - blog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPost'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+    delete:
+      operationId: blog_posts_destroy
+      description: View for manage posts of blog
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пост.
+        required: true
+      tags:
+      - blog
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /blog/posts/{id}/like/:
+    post:
+      operationId: blog_posts_like_create
+      description: Manage obj's like
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пост.
+        required: true
+      tags:
+      - blog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Post'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+    delete:
+      operationId: blog_posts_like_destroy
+      description: Manage obj's like
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пост.
+        required: true
+      tags:
+      - blog
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /blog/posts/{id}/score/:
+    post:
+      operationId: blog_posts_score_create
+      description: Manage obj's rating.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пост.
+        required: true
+      tags:
+      - blog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Post'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+    delete:
+      operationId: blog_posts_score_destroy
+      description: Manage obj's rating.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пост.
+        required: true
+      tags:
+      - blog
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /skill_test/categories/:
+    get:
+      operationId: skill_test_categories_list
+      tags:
+      - skill_test
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+          description: ''
+  /skill_test/questions/:
+    get:
+      operationId: skill_test_questions_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - skill_test
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedQuestionList'
+          description: ''
+    post:
+      operationId: skill_test_questions_create
+      tags:
+      - skill_test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Question'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Question'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+          description: ''
+  /skill_test/questions/{id}/:
+    get:
+      operationId: skill_test_questions_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Вопрос.
+        required: true
+      tags:
+      - skill_test
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+          description: ''
+    put:
+      operationId: skill_test_questions_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Вопрос.
+        required: true
+      tags:
+      - skill_test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Question'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Question'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+          description: ''
+    patch:
+      operationId: skill_test_questions_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Вопрос.
+        required: true
+      tags:
+      - skill_test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestion'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestion'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestion'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+          description: ''
+    delete:
+      operationId: skill_test_questions_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Вопрос.
+        required: true
+      tags:
+      - skill_test
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /skill_test/testing/:
+    get:
+      operationId: skill_test_testing_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - skill_test
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSkillTestList'
+          description: ''
+    post:
+      operationId: skill_test_testing_create
+      tags:
+      - skill_test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SkillTest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SkillTest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SkillTest'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkillTest'
+          description: ''
+  /skill_test/testing/{id}/:
+    get:
+      operationId: skill_test_testing_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Тест.
+        required: true
+      tags:
+      - skill_test
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkillTest'
+          description: ''
+    put:
+      operationId: skill_test_testing_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Тест.
+        required: true
+      tags:
+      - skill_test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SkillTest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SkillTest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SkillTest'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkillTest'
+          description: ''
+    patch:
+      operationId: skill_test_testing_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Тест.
+        required: true
+      tags:
+      - skill_test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSkillTest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSkillTest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSkillTest'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkillTest'
+          description: ''
+    delete:
+      operationId: skill_test_testing_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Тест.
+        required: true
+      tags:
+      - skill_test
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Activation:
+      type: object
+      properties:
+        uid:
+          type: string
+        token:
+          type: string
+      required:
+      - token
+      - uid
+    Category:
+      type: object
+      description: Serializer for Category model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        slug:
+          type: string
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        title:
+          type: string
+          title: Категория
+          maxLength: 255
+      required:
+      - id
+      - slug
+      - title
+    Comment:
+      type: object
+      description: Serializer for Comment model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        creation_date:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        author:
+          type: integer
+          title: Автор
+        parent:
+          type: integer
+          nullable: true
+          title: Родительский комментарий
+        content:
+          type: string
+          title: Содержание
+        post:
+          type: integer
+        is_fan:
+          type: boolean
+          description: Check if user add like to a post or not.
+          readOnly: true
+        children:
+          type: array
+          items:
+            type: integer
+        total_likes:
+          type: integer
+          readOnly: true
+      required:
+      - author
+      - content
+      - creation_date
+      - id
+      - is_fan
+      - post
+      - total_likes
+    ListPosts:
+      type: object
+      description: Serializer for list of posts
+      properties:
+        title:
+          type: string
+          title: Заголовок
+          maxLength: 255
+        category:
+          type: integer
+          title: Категория
+        creation_date:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        author:
+          type: integer
+          title: Автор
+        content:
+          type: string
+          title: Содержание
+        view_count:
+          type: integer
+          readOnly: true
+        total_likes:
+          type: integer
+          readOnly: true
+        amount_comments:
+          type: integer
+          readOnly: true
+        average_rating:
+          type: number
+          format: double
+          readOnly: true
+      required:
+      - amount_comments
+      - author
+      - average_rating
+      - category
+      - content
+      - creation_date
+      - title
+      - total_likes
+      - view_count
+    PaginatedCommentList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+    PaginatedListPostsList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListPosts'
+    PaginatedQuestionList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Question'
+    PaginatedSkillTestList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SkillTest'
+    PaginatedUserList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    PasswordResetConfirmRetype:
+      type: object
+      properties:
+        uid:
+          type: string
+        token:
+          type: string
+        new_password:
+          type: string
+        re_new_password:
+          type: string
+      required:
+      - new_password
+      - re_new_password
+      - token
+      - uid
+    PatchedComment:
+      type: object
+      description: Serializer for Comment model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        creation_date:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        author:
+          type: integer
+          title: Автор
+        parent:
+          type: integer
+          nullable: true
+          title: Родительский комментарий
+        content:
+          type: string
+          title: Содержание
+        post:
+          type: integer
+        is_fan:
+          type: boolean
+          description: Check if user add like to a post or not.
+          readOnly: true
+        children:
+          type: array
+          items:
+            type: integer
+        total_likes:
+          type: integer
+          readOnly: true
+    PatchedPost:
+      type: object
+      description: Serializer for Post model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        slug:
+          type: string
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        published:
+          type: boolean
+          default: false
+        creation_date:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        category:
+          type: integer
+          title: Категория
+        author:
+          type: integer
+          title: Автор
+        title:
+          type: string
+          title: Заголовок
+          maxLength: 255
+        content:
+          type: string
+          title: Содержание
+        publish_date:
+          type: string
+          format: date-time
+          nullable: true
+          title: Дата публикации
+        is_fan:
+          type: boolean
+          description: Check if user add like to a post or not.
+          readOnly: true
+        view_count:
+          type: integer
+          readOnly: true
+        total_likes:
+          type: integer
+          readOnly: true
+        amount_comments:
+          type: integer
+          readOnly: true
+        is_score:
+          oneOf:
+          - type: integer
+          - type: boolean
+          description: Check if user add score to an object or not.
+          readOnly: true
+        average_rating:
+          type: number
+          format: double
+          readOnly: true
+    PatchedQuestion:
+      type: object
+      description: Question's serializer.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        slug:
+          type: string
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        title:
+          type: string
+          maxLength: 255
+        question:
+          type: string
+          title: Вопрос
+        author:
+          type: integer
+          title: Автор
+    PatchedSkillTest:
+      type: object
+      description: Test of skill serializer.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        slug:
+          type: string
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        title:
+          type: string
+          title: Название теста
+          maxLength: 150
+        description:
+          type: string
+          title: Описание теста
+        creation_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        author:
+          type: integer
+          title: Автор
+        category:
+          type: integer
+          title: Категория
+        questions:
+          type: array
+          items:
+            type: integer
+            title: Вопросы
+          title: Вопросы
+    PatchedUser:
+      type: object
+      properties:
+        username:
+          type: string
+          title: Имя пользователя
+          description: Обязательное поле. Не более 150 символов. Только буквы, цифры
+            и символы @/./+/-/_.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          readOnly: true
+    Post:
+      type: object
+      description: Serializer for Post model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        slug:
+          type: string
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        published:
+          type: boolean
+          default: false
+        creation_date:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        category:
+          type: integer
+          title: Категория
+        author:
+          type: integer
+          title: Автор
+        title:
+          type: string
+          title: Заголовок
+          maxLength: 255
+        content:
+          type: string
+          title: Содержание
+        publish_date:
+          type: string
+          format: date-time
+          nullable: true
+          title: Дата публикации
+        is_fan:
+          type: boolean
+          description: Check if user add like to a post or not.
+          readOnly: true
+        view_count:
+          type: integer
+          readOnly: true
+        total_likes:
+          type: integer
+          readOnly: true
+        amount_comments:
+          type: integer
+          readOnly: true
+        is_score:
+          oneOf:
+          - type: integer
+          - type: boolean
+          description: Check if user add score to an object or not.
+          readOnly: true
+        average_rating:
+          type: number
+          format: double
+          readOnly: true
+      required:
+      - amount_comments
+      - author
+      - average_rating
+      - category
+      - content
+      - creation_date
+      - id
+      - is_fan
+      - is_score
+      - slug
+      - title
+      - total_likes
+      - view_count
+    Question:
+      type: object
+      description: Question's serializer.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        slug:
+          type: string
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        title:
+          type: string
+          maxLength: 255
+        question:
+          type: string
+          title: Вопрос
+        author:
+          type: integer
+          title: Автор
+      required:
+      - author
+      - id
+      - question
+      - slug
+      - title
+    SendEmailReset:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    SetPasswordRetype:
+      type: object
+      properties:
+        new_password:
+          type: string
+        re_new_password:
+          type: string
+        current_password:
+          type: string
+      required:
+      - current_password
+      - new_password
+      - re_new_password
+    SetUsername:
+      type: object
+      properties:
+        current_password:
+          type: string
+        new_email:
+          type: string
+          format: email
+          title: Email
+          maxLength: 254
+      required:
+      - current_password
+      - new_email
+    SkillTest:
+      type: object
+      description: Test of skill serializer.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        slug:
+          type: string
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        title:
+          type: string
+          title: Название теста
+          maxLength: 150
+        description:
+          type: string
+          title: Описание теста
+        creation_time:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        author:
+          type: integer
+          title: Автор
+        category:
+          type: integer
+          title: Категория
+        questions:
+          type: array
+          items:
+            type: integer
+            title: Вопросы
+          title: Вопросы
+      required:
+      - author
+      - category
+      - creation_time
+      - description
+      - id
+      - slug
+      - title
+    TokenCreate:
+      type: object
+      properties:
+        password:
+          type: string
+        email:
+          type: string
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          title: Имя пользователя
+          description: Обязательное поле. Не более 150 символов. Только буквы, цифры
+            и символы @/./+/-/_.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          readOnly: true
+      required:
+      - email
+      - id
+      - username
+    UserCreate:
+      type: object
+      properties:
+        username:
+          type: string
+          title: Имя пользователя
+          description: Обязательное поле. Не более 150 символов. Только буквы, цифры
+            и символы @/./+/-/_.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        id:
+          type: integer
+          readOnly: true
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - id
+      - password
+      - username
+    UsernameResetConfirm:
+      type: object
+      properties:
+        new_email:
+          type: string
+          format: email
+          title: Email
+          maxLength: 254
+      required:
+      - new_email
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
