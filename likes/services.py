@@ -35,4 +35,3 @@ class LikeServices:
         if not self.user.is_authenticated:
             return False
         return bool(self.obj.user_likes)
-

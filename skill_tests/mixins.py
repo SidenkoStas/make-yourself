@@ -1,6 +1,7 @@
 from rest_framework.mixins import CreateModelMixin
 from rest_framework import serializers
 from django.utils.text import slugify
+from make_yourself.services import set_slugify
 
 
 class CustomCreateModelMixin(CreateModelMixin):
@@ -9,8 +10,5 @@ class CustomCreateModelMixin(CreateModelMixin):
     """
     def create(self, request, *args, **kwargs):
         request.data["author"] = request.user.pk
-        try:
-            request.data["slug"] = slugify(request.data["title"])
-        except KeyError:
-            raise serializers.ValidationError({"title": "Поле 'title' обязательно для заполнения"})
+        set_slugify(request)
         return super().create(request, *args, **kwargs)

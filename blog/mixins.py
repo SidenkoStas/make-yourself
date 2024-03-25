@@ -5,6 +5,7 @@ from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
 from blog.services import get_client_ip
 from blog.models import View
+from make_yourself.services import set_slugify
 
 
 class CustomCreateModelMixin(CreateModelMixin):
@@ -13,6 +14,7 @@ class CustomCreateModelMixin(CreateModelMixin):
     """
     def create(self, request, *args, **kwargs):
         request.data["author"] = request.user.pk
+        set_slugify(request)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
