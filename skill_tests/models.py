@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from random import shuffle
 
 
 class Category(models.Model):
@@ -26,12 +27,40 @@ class Question(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name="Автор")
     question = models.TextField(verbose_name="Вопрос")
 
+    def get_answers(self):
+        answer_objs = list(Answer.objects.filter(question=self))
+        data = []
+        shuffle(answer_objs)
+
+        for answer_obj in answer_objs:
+            data.append({
+                'answer': answer_obj.answer,
+                'is_correct': answer_obj.is_correct
+            })
+        return data
+
     class Meta:
         verbose_name = "Вопрос"
         verbose_name_plural = "Вопросы"
 
     def __str__(self):
         return f"{self.title}"
+
+
+class Answer(models.Model):
+    """
+    Answer for questions model.
+    """
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name="Вопрос")
+    answer = models.TextField(verbose_name="Ответ")
+    is_correct = models.BooleanField(default=False, verbose_name="Корректность ответа")
+
+    class Meta:
+        verbose_name = "Ответ"
+        verbose_name_plural = "Ответы"
+
+    def __str__(self):
+        return f"{self.question[:10]} - {self.answer[:10]}"
 
 
 class SkillTest(models.Model):
