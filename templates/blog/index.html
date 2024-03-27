@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="rest-data">
+    <h3 id="title"></h3>
+    <p id="content"></p>
+</div>
+
+
+<script type="text/javascript">
+        // Make an HTTP request to the REST API endpoint
+        fetch('http://localhost:8000/blog/posts/')
+            .then(response => response.json())
+            .then(data => {
+                // Manipulate the HTML content to display the REST data
+                const restDataContainer = document.getElementById('rest-data');
+                const titleContainer = document.getElementById('title');
+                const contentContainer = document.getElementById('content');
+
+                restDataContainer.innerHTML = data.results.map(post => {
+                    return titleContainer.innerHTML = post.title
+                });
+            }).catch(err => {
+                console.log(err);
+            });
+    </script>
+
+</body>
+</html>

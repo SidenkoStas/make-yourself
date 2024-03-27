@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "mptt",
     "djoser",
     "django_filters",
+    "corsheaders",
     # My apps:
     "users.apps.UsersConfig",
     "common.apps.CommonConfig",
@@ -64,6 +65,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -215,3 +217,5 @@ CELERY_RESULT_BACKEND = "redis://localhost:6379//0"
 # Для запуска в Docker
 # CELERY_BROKER_URL = "redis://redis:6379"
 # CELERY_RESULT_BACKEND = "redis://redis:6379"
+
+CORS_ALLOW_ALL_ORIGINS = True
