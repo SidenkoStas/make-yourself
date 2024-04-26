@@ -53,6 +53,7 @@ POSTGRES_DB=XXXXXXXX
 POSTGRES_USER=XXXXXXXX
 POSTGRES_PASSWORD=XXXXXXXX
 HOST=XXXXXXXX
+PORT=XXXX
 ```
 Для работы почты укажите в переменных настройки приложения для вашей почты
 ```

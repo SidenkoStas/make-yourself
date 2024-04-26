@@ -17,7 +17,7 @@ import environ
 # Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Настройка пфайла окружения
+# Настройка файла окружения
 env = environ.Env(
     DEBUG=(bool, False)
 )
@@ -188,7 +188,7 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     "TITLE": "Make Yourself",
     "DESCRIPTION": "Website for self-education and self-study",
-    "VERSION": "0.2.0",
+    "VERSION": "0.4.5",
     "SERVE_INCLUDE_SCHEMA": False,
 }
 

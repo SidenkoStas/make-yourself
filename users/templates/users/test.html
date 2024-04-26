@@ -1,3 +1,4 @@
+{% load rest_framework %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,5 +7,9 @@
 </head>
 <body>
 <h1>Hello world!</h1>
+{% for item in data %}
+    <div>{{ item }}</div>
+{% endfor %}
+{{ results }}
 </body>
 </html>
