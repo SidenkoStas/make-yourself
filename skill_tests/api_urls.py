@@ -1,5 +1,5 @@
 from django.urls import path, include
-from skill_tests.views import CategoriesView, QuestionViewSet, SkillTestViewSet, AnswerViewSet
+from skill_tests.api_views import CategoriesView, QuestionViewSet, SkillTestViewSet, AnswerViewSet
 from rest_framework.routers import DefaultRouter
 
 

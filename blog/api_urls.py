@@ -1,5 +1,5 @@
 from django.urls import path, include
-from blog.views import CategoriesListView, PostsViewSet, CommentsViewSet
+from blog.api_views import CategoriesListView, PostsViewSet, CommentsViewSet
 from rest_framework.routers import DefaultRouter
 
 

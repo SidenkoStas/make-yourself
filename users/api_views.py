@@ -9,7 +9,7 @@ from djoser.conf import settings
 from rest_framework import status
 from users.tasks import send_email
 from users.services import get_email_context
-from .dumb_db.mixins import WorkWithDBMixin
+from users.dumb_db.mixins import WorkWithDBMixin
 
 
 class CustomUserViewSet(WorkWithDBMixin, UserViewSet):

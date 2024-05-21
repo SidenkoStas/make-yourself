@@ -1,5 +1,5 @@
 from django.urls import path, include
-from users.views import activate_profile, password_reset, CustomUserViewSet
+from users.api_views import activate_profile, password_reset, CustomUserViewSet
 from rest_framework.routers import DefaultRouter
 
 

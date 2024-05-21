@@ -3,7 +3,7 @@ from blog.models import Post, Category, Comment
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIRequestFactory, force_authenticate
-from blog.views import PostsViewSet, CategoriesListView, CommentsViewSet
+from blog.api_views import PostsViewSet, CategoriesListView, CommentsViewSet
 
 User = get_user_model()
 
