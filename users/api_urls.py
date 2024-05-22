@@ -3,7 +3,7 @@ from users.api_views import activate_profile, password_reset, CustomUserViewSet
 from rest_framework.routers import DefaultRouter
 
 
-app_name = "users"
+app_name = "api_users"
 router = DefaultRouter()
 router.register("users", CustomUserViewSet)
 

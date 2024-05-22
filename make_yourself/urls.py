@@ -7,14 +7,16 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include("common.urls", namespace="common")),
+    path("account/", include("users.urls", namespace="users")),
+    # REST API
+    path("api/v1/blog/", include("blog.api_urls", namespace="api_blog")),
+    path("api/v1/account/", include("users.api_urls", namespace="api_users")),
+    path("api/v1/skill_test/", include("skill_tests.api_urls", namespace="api_skill_test")),
+    # OpenAPI docs
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/schema/docs/", SpectacularSwaggerView.as_view(url_name="schema"),
          name="swagger-ui"),
-    path("", include("common.urls", namespace="common")),
-    path("api/v1/blog/", include("blog.api_urls", namespace="blog")),
-    path("api/v1/account/", include("users.api_urls")),
-    path("api/v1/skill_test/", include("skill_tests.api_urls", namespace="skill_test"))
-
 ]
 
 if settings.DEBUG:

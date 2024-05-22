@@ -3,7 +3,7 @@ from skill_tests.api_views import CategoriesView, QuestionViewSet, SkillTestView
 from rest_framework.routers import DefaultRouter
 
 
-app_name = "skill_test"
+app_name = "api_skill_test"
 router = DefaultRouter()
 router.register("questions", QuestionViewSet, basename="question")
 router.register("answers", AnswerViewSet, basename="answer")

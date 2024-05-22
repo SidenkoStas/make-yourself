@@ -3,7 +3,7 @@ from blog.api_views import CategoriesListView, PostsViewSet, CommentsViewSet
 from rest_framework.routers import DefaultRouter
 
 
-app_name = "blog"
+app_name = "api_blog"
 
 routers = DefaultRouter()
 routers.register("posts", PostsViewSet, basename="posts")
