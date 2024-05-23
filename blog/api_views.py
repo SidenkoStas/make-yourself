@@ -36,8 +36,8 @@ class PostsViewSet(LikedMixin,
     permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, )
     filterset_class = ProductFilter
     filter_backends = (DjangoFilterBackend, )
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = "users/test.html"
+    # renderer_classes = [TemplateHTMLRenderer]
+    # template_name = "users/test.html"
 
     def get_serializer_class(self):
         """

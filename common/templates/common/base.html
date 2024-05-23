@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="description" 
           content="{% block metadesctiption %}Сайт для самообучения и самопроверки знаний. Найдите и пройдите интересные тесты, чтобы улучшить свои навыки и узнать новую информацию. Самоучка, самоконтроль, самопроверка знаний, тесты.{% endblock metadesctiption %}">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
         {% block title %}
             Make Yourself
@@ -12,10 +12,18 @@
     </title>
 </head>
 <body>
-
+<header>
+    <nav>
+        
+    </nav>
+</header>
 {% block content %}
 
 {% endblock content %}
 
+<footer>
+    {% block footer %}
+    {% endblock footer %}
+</footer>
 </body>
 </html>
