@@ -1,20 +1,33 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="description" 
           content="{% block metadesctiption %}Сайт для самообучения и самопроверки знаний. Найдите и пройдите интересные тесты, чтобы улучшить свои навыки и узнать новую информацию. Самоучка, самоконтроль, самопроверка знаний, тесты.{% endblock metadesctiption %}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Title-->
     <title>
         {% block title %}
             Make Yourself
         {% endblock title %}
     </title>
+    <!--CSS-->
+    <link rel="icon" type="image/x-icon" href="{% static 'common/img/favicon.ico' %}">
 </head>
 <body>
-<header>
-    <nav>
-        
+<!--Header-->
+<header style="display: flex;">
+    <!--Logo-->
+    <a href="{% url 'common:index' %}" style="padding: 10px;">
+        <img src="" alt="logo">
+    </a>
+    <!--Navigation-->
+    <nav style="display: flex; justify-content: center; flex: auto;">
+        <a href="" style="padding: 10px;">Главная</a>
+        <a href="" style="padding: 10px;">Блог</a>
+        <a href="" style="padding: 10px;">Тесты</a>
+        <a href="" style="padding: 10px;">О сайте</a>
     </nav>
 </header>
 {% block content %}
