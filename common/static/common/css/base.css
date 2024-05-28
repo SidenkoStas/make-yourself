@@ -1,0 +1,9 @@
+#left_header {
+    display: flex;
+}
+
+#left_nav {
+    display: flex;
+    justify-content: center;
+    flex: auto;
+}
