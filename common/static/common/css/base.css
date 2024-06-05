@@ -1,8 +1,10 @@
-#left_header {
+@import "normalization.css";
+
+#header {
     display: flex;
 }
 
-#left_nav {
+#navigation {
     display: flex;
     justify-content: center;
     flex: auto;

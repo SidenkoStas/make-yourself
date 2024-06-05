@@ -20,17 +20,18 @@
     <!--CSS-->
     <link rel="icon" type="image/x-icon" href="{% static 'common/img/favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'common/css/base.css' %}">
+    {% block css %} {% endblock css %}
 </head>
 <!--Body-->
 <body>
-<!--Left side header-->
-<header id="left_header">
+<!--Header-->
+<header id="header">
     <!--Logo-->
     <a href="{% url 'common:index' %}" style="padding: 10px;">
         <img src="" alt="logo">
     </a>
     <!--Navigation-->
-    <nav id="left_nav">
+    <nav id="navigation">
         <a href="" style="padding: 10px;">Главная</a>
         <a href="" style="padding: 10px;">Блог</a>
         <a href="" style="padding: 10px;">Тесты</a>
